@@ -9,9 +9,9 @@ static var PROP_TYPES: Dictionary[String, Callable] = {
 	"W": SgfPoint.new,
 	
 	# Setup props
-	"AB": list_of.bind(SgfPoint.new),
-	"AE": list_of.bind(SgfPoint.new),
-	"AW": list_of.bind(SgfPoint.new),
+	"AB": SgfPointList.new,
+	"AE": SgfPointList.new,
+	"AW": SgfPointList.new,
 	"PL": SgfColor.new,
 	
 	# Node annotation props
@@ -31,22 +31,22 @@ static var PROP_TYPES: Dictionary[String, Callable] = {
 	"TE": SgfDouble.new,
 	
 	# Markup props
-	"AR": list_of.bind(composed_of.bind(SgfPoint.new, SgfPoint.new)),
-	"CR": list_of.bind(SgfPoint.new),
-	"DD": elist_of.bind(SgfPoint.new),
-	"LB": list_of.bind(composed_of.bind(SgfPoint.new, SgfText.new)),
-	"LN": list_of.bind(composed_of.bind(SgfPoint.new, SgfPoint.new)),
-	"MA": list_of.bind(SgfPoint.new),
-	"SQ": list_of.bind(SgfPoint.new),
-	"TR": list_of.bind(SgfPoint.new), # NOTE: TW, TB
+	"AR": SgfList.new.bind(SgfCompose.new.bind(SgfPoint.new, SgfPoint.new)),
+	"CR": SgfPointList.new,
+	"DD": SgfPointList.new.bind(true),
+	"LB": SgfList.new.bind(SgfCompose.new.bind(SgfPoint.new, SgfText.new)),
+	"LN": SgfList.new.bind(SgfCompose.new.bind(SgfPoint.new, SgfPoint.new)),
+	"MA": SgfPointList.new,
+	"SQ": SgfPointList.new,
+	"TR": SgfPointList.new, # NOTE: TW, TB
 	
 	# Root props
-	"AP": composed_of.bind(SgfText.new, SgfText.new),
+	"AP": SgfCompose.new.bind(SgfText.new, SgfText.new),
 	"CA": SgfText.new,
 	"FF": SgfNumber.new,
 	"GM": SgfNumber.new,
 	"ST": SgfNumber.new,
-	"SZ": composed_of.bind(SgfNumber.new, SgfNumber.new),
+	"SZ": SgfCompose.new.bind(SgfNumber.new, SgfNumber.new),
 	
 	# Game info props
 	"AN": SgfText.new,
@@ -78,9 +78,9 @@ static var PROP_TYPES: Dictionary[String, Callable] = {
 	"WL": SgfReal.new,
 	
 	# Misc props
-	"FG": composed_of.bind(SgfNumber.new, SgfText.new),
+	"FG": SgfCompose.new.bind(SgfNumber.new, SgfText.new),
 	"PM": SgfNumber.new,
-	"VW": elist_of.bind(SgfPoint.new),
+	"VW": SgfPointList.new.bind(true),
 }
 
 class SgfTypeBase:
@@ -126,36 +126,57 @@ class SgfPoint extends SgfTypeBase:
 	# 1-indexed
 	var x := 0
 	var y := 0
-	var x2 := 0
-	var y2 := 0
-	var passed := false
+	
+	static func chr_to_int(c: String) -> int:
+		return c.unicode_at(0)-ord('a')+1
+	
+	static func int_to_chr(n: int) -> String:
+		return String.chr(ord('a')+n-1)
 	
 	func _init(texts: Array[String]) -> void:
 		assert(len(texts) == 1)
-		if len(texts[0]) == 0:
-			# pass
-			x = -1
-			y = -1
-		elif len(texts[0]) == 2:
+		if len(texts[0]) == 2:
 			x = texts[0].unicode_at(0)-ord('a')+1
 			y = texts[0].unicode_at(1)-ord('a')+1
-		elif len(texts[0]) == 4:
-			x = texts[0].unicode_at(0)-ord('a')+1
-			y = texts[0].unicode_at(1)-ord('a')+1
-			x2 = texts[0].unicode_at(3)-ord('a')+1
-			y2 = texts[0].unicode_at(4)-ord('a')+1
+		else:
+			assert(len(texts[0]) == 0) # Pass
 	
-	func get_moves() -> Array[Variant]:
-		if passed:
-			return []
-		
-		if x2 and y2:
-			return []
-		
-		return [Vector2i(x,y)]
+	func _to_string() -> String:
+		if x and y:
+			return "[" + int_to_chr(x) + int_to_chr(y) + "]"
+		return "[]"
+
+class SgfPointList extends SgfTypeBase:
+	var points: Array[Vector2i] = []
 	
-	func dump() -> String:
-		return String.chr(ord('a')+x-1)+String.chr(ord('a')+y-1)
+	func _init(texts: Array[String], elist: bool = false) -> void:
+		if elist:
+			if len(texts) == 1:
+				if len(texts[0]) == 0:
+					return
+		
+		for i in texts:
+			assert(len(i) == 2 or len(i) == 5)
+			if len(i) == 2:
+				points.append(Vector2i(SgfPoint.chr_to_int(i[0]), SgfPoint.chr_to_int(i[1])))
+			else:
+				var x1 := SgfPoint.chr_to_int(i[0])
+				var y1 := SgfPoint.chr_to_int(i[1])
+				var x2 := SgfPoint.chr_to_int(i[3])
+				var y2 := SgfPoint.chr_to_int(i[4])
+				
+				for x in range(x1, x2+1):
+					for y in range(y1, y2+1):
+						points.append(Vector2i(x,y))
+	
+	func _to_string() -> String:
+		if not points:
+			return "[]"
+		
+		var s := ""
+		for i in points:
+			s += "[" + SgfPoint.int_to_chr(i.x) + SgfPoint.int_to_chr(i.y) + "]"
+		return s
 
 class SgfNumber extends SgfTypeBase:
 	var value := 0
@@ -163,8 +184,8 @@ class SgfNumber extends SgfTypeBase:
 		assert(len(texts) == 1)
 		value = int(texts[0])
 	
-	func dump() -> String:
-		return "%d" % value
+	func _to_string() -> String:
+		return "[%d]" % value
 
 class SgfReal extends SgfTypeBase:
 	var value := 0.0
@@ -172,8 +193,8 @@ class SgfReal extends SgfTypeBase:
 		assert(len(texts) == 1)
 		value = float(texts[0])
 	
-	func dump() -> String:
-		return "%f" % value
+	func _to_string() -> String:
+		return "[%f]" % value
 
 class SgfText extends SgfTypeBase:
 	var value := ""
@@ -181,50 +202,67 @@ class SgfText extends SgfTypeBase:
 		assert(len(texts) == 1)
 		value = texts[0]
 	
-	func dump() -> String:
-		return "%s" % value
+	func _to_string() -> String:
+		return "[%s]" % value
 
-static func list_of(texts: Array[String], sgf_type: Callable) -> Array:
-	var values = []
-	for i in texts:
-		values.append(sgf_type.call(_str_arr_cast([i])))
-	return values
-
-static func elist_of(texts: Array[String], sgf_type: Callable) -> Array:
-	var values = []
-	if not texts[0].strip_edges():
-		return []
-	for i in texts:
-		values.append(sgf_type.call(_str_arr_cast([i])))
-	return values
-
-static var _compose_regex = RegEx.new()
-
-static func _regex_split(subject: String, regex: RegEx) -> Array[String]:
-	var results: Array[String] = []	
-	var last_index = 0
+class SgfList extends SgfTypeBase:
+	var values: Array[Variant] = []
 	
-	for item in regex.search_all(subject):
-		results.append(subject.substr(last_index, item.get_start() - last_index))
-		last_index = item.get_end()
+	func _init(texts: Array[String], sgf_type: Callable, elist: bool = false) -> void:
+		if elist:
+			if len(texts) == 1:
+				if len(texts[0]) == 0:
+					return
+		
+		for i in texts:
+			values.append(sgf_type.call(SgfTypes._str_arr_cast([i])))
 	
-	results.append(subject.substr(last_index))
-	
-	return results
+	func _to_string() -> String:
+		if not values:
+			return "[]"
+		
+		var s := ""
+		for i in values:
+			s += str(i)
+		return s
 
 static func _str_arr_cast(arr: Array) -> Array[String]:
 	var typed: Array[String] = []
 	typed.assign(arr)
 	return typed
 
-static func composed_of(texts: Array[String], left_type: Callable, right_type: Callable) -> Array:
-	if not _compose_regex.is_valid():
-		_compose_regex.compile("(?<!\\\\):")
-	assert(len(texts) == 1)
-	var sides := _regex_split(texts[0], _compose_regex)
-	assert(len(sides) > 0 && len(sides) < 3)
-	var values = []
-	values.append(left_type.call(_str_arr_cast([sides[0]])))
-	if len(sides) == 2:
-		values.append(right_type.call(_str_arr_cast([sides[1]])))
-	return values
+class SgfCompose extends SgfTypeBase:
+	var left_value: Variant
+	var right_value: Variant
+	
+	func _init(texts: Array[String], left_type: Callable, right_type: Callable) -> void:
+		assert(len(texts) == 1)
+		
+		if not SgfCompose._compose_regex.is_valid():
+			SgfCompose._compose_regex.compile("(?<!\\\\):")
+		
+		var sides := _regex_split(texts[0], _compose_regex)
+		assert(len(sides) > 0 && len(sides) < 3)
+		
+		
+		left_value = left_type.call(SgfTypes._str_arr_cast([sides[0]]))
+		if len(sides) == 2:
+			right_value = right_type.call(SgfTypes._str_arr_cast([sides[1]]))
+	
+	func _to_string() -> String:
+		if right_value:
+			return "[%s:%s]" % [left_value, right_value]
+		return "[%s]" % left_value
+	
+	static var _compose_regex = RegEx.new()
+	static func _regex_split(subject: String, regex: RegEx) -> Array[String]:
+		var results: Array[String] = []	
+		var last_index = 0
+		
+		for item in regex.search_all(subject):
+			results.append(subject.substr(last_index, item.get_start() - last_index))
+			last_index = item.get_end()
+		
+		results.append(subject.substr(last_index))
+		
+		return results
