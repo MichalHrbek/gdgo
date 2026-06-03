@@ -1,86 +1,92 @@
 class_name SgfTypes
 
 static var PROP_TYPES: Dictionary[String, Callable] = {
-# Move props
-	"B": SgfPoint.new,
-	"KO": SgfNone.new, # NOTE: KO is in the FF[4] docs but KM is in the example and on wikipedia
-	"KM": SgfNone.new,
-	"MN": SgfNumber.new,
-	"W": SgfPoint.new,
+	# Move props
+	"B": SgfPoint.new,                      # Black move
+	"KO": SgfNone.new,                      # Execute move even if illegal (e.g., Ko violation)
+	"MN": SgfNumber.new,                    # Set move number
+	"W": SgfPoint.new,                      # White move
 	
 	# Setup props
-	"AB": SgfPointList.new,
-	"AE": SgfPointList.new,
-	"AW": SgfPointList.new,
-	"PL": SgfColor.new,
+	"AB": SgfPointList.new,                 # Add Black stones
+	"AE": SgfPointList.new,                 # Add Empty (clear points)
+	"AW": SgfPointList.new,                 # Add White stones
+	"PL": SgfColor.new,                     # Player whose turn it is to play
 	
 	# Node annotation props
-	"C": SgfText.new,
-	"DM": SgfDouble.new,
-	"GB": SgfDouble.new,
-	"GW": SgfDouble.new,
-	"HO": SgfDouble.new,
-	"N": SgfText.new,
-	"UC": SgfDouble.new,
-	"V": SgfReal.new,
+	"C": SgfText.new,                       # Comment text
+	"DM": SgfDouble.new,                    # Position is even (even result for both)
+	"GB": SgfDouble.new,                    # Good for Black
+	"GW": SgfDouble.new,                    # Good for White
+	"HO": SgfDouble.new,                    # Hotspot (interesting/decisive position)
+	"N": SgfText.new,                       # Node name
+	"UC": SgfDouble.new,                    # Position is unclear
+	"V": SgfReal.new,                       # Node value (estimated score; positive for B, negative for W)
 	
 	# Move annotation props
-	"BM": SgfDouble.new,
-	"DO": SgfNone.new,
-	"IT": SgfNone.new,
-	"TE": SgfDouble.new,
+	"BM": SgfDouble.new,                    # Bad move
+	"DO": SgfNone.new,                      # Doubtful move
+	"IT": SgfNone.new,                      # Interesting move
+	"TE": SgfDouble.new,                    # Tesuji (good move)
 	
 	# Markup props
-	"AR": SgfList.new.bind(SgfCompose.new.bind(SgfPoint.new, SgfPoint.new)),
-	"CR": SgfPointList.new,
-	"DD": SgfPointList.new.bind(true),
-	"LB": SgfList.new.bind(SgfCompose.new.bind(SgfPoint.new, SgfText.new)),
-	"LN": SgfList.new.bind(SgfCompose.new.bind(SgfPoint.new, SgfPoint.new)),
-	"MA": SgfPointList.new,
-	"SQ": SgfPointList.new,
-	"TR": SgfPointList.new, # NOTE: TW, TB
+	"AR": SgfList.new.bind(SgfCompose.new.bind(SgfPoint.new, SgfPoint.new)), # Draw arrow
+	"CR": SgfPointList.new,                 # Circle markup
+	"DD": SgfPointList.new.bind(true),      # Dim/grey out points
+	"LB": SgfList.new.bind(SgfCompose.new.bind(SgfPoint.new, SgfText.new)),  # Text label on board
+	"LN": SgfList.new.bind(SgfCompose.new.bind(SgfPoint.new, SgfPoint.new)), # Draw line
+	"MA": SgfPointList.new,                 # Mark with 'X'
+	"SL": SgfPointList.new,                 # Selected points
+	"SQ": SgfPointList.new,                 # Square markup
+	"TR": SgfPointList.new,                 # Triangle markup
 	
 	# Root props
-	"AP": SgfCompose.new.bind(SgfText.new, SgfText.new),
-	"CA": SgfText.new,
-	"FF": SgfNumber.new,
-	"GM": SgfNumber.new,
-	"ST": SgfNumber.new,
-	"SZ": SgfCompose.new.bind(SgfNumber.new, SgfNumber.new),
+	"AP": SgfCompose.new.bind(SgfText.new, SgfText.new), # Application name and version
+	"CA": SgfText.new,                      # Charset/encoding used for text
+	"FF": SgfNumber.new,                    # File format version
+	"GM": SgfNumber.new,                    # Game type (e.g., 1 = Go, 2 = Othello, 3 = Chess)
+	"ST": SgfNumber.new,                    # Style of variation display
+	"SZ": SgfCompose.new.bind(SgfNumber.new, SgfNumber.new), # Board size
 	
 	# Game info props
-	"AN": SgfText.new,
-	"BR": SgfText.new,
-	"BT": SgfText.new,
-	"CP": SgfText.new,
-	"DT": SgfText.new,
-	"EV": SgfText.new,
-	"GC": SgfText.new,
-	"GN": SgfText.new,
-	"ON": SgfText.new,
-	"OT": SgfText.new,
-	"PB": SgfText.new,
-	"PC": SgfText.new,
-	"PW": SgfText.new,
-	"RE": SgfText.new,
-	"RO": SgfText.new,
-	"RU": SgfText.new,
-	"SO": SgfText.new,
-	"TM": SgfReal.new,
-	"US": SgfText.new,
-	"WR": SgfText.new,
-	"WT": SgfText.new,
+	"AN": SgfText.new,                      # Name of person who annotated the game
+	"BR": SgfText.new,                      # Black rank
+	"BT": SgfText.new,                      # Black team name
+	"CP": SgfText.new,                      # Copyright info
+	"DT": SgfText.new,                      # Date when game was played
+	"EV": SgfText.new,                      # Event/tournament name
+	"GC": SgfText.new,                      # Game commentary/background summary
+	"GN": SgfText.new,                      # Game name
+	"ON": SgfText.new,                      # Opening info (e.g., fuseki pattern)
+	"OT": SgfText.new,                      # Overtime (byo-yomi) method description
+	"PB": SgfText.new,                      # Player Black name
+	"PC": SgfText.new,                      # Place where game was played
+	"PW": SgfText.new,                      # Player White name
+	"RE": SgfText.new,                      # Result of the game
+	"RO": SgfText.new,                      # Round number and type
+	"RU": SgfText.new,                      # Ruleset name (e.g., Japanese, AGA)
+	"SO": SgfText.new,                      # Source of the game record (e.g., book, journal)
+	"TM": SgfReal.new,                      # Time limit in seconds
+	"US": SgfText.new,                      # User/program name that entered the game record
+	"WR": SgfText.new,                      # White rank
+	"WT": SgfText.new,                      # White team name
 	
 	# Timing props
-	"BL": SgfReal.new,
-	"OB": SgfNumber.new,
-	"OW": SgfNumber.new,
-	"WL": SgfReal.new,
+	"BL": SgfReal.new,                      # Black time left (seconds)
+	"OB": SgfNumber.new,                    # Overtime stones left to play for Black
+	"OW": SgfNumber.new,                    # Overtime stones left to play for White
+	"WL": SgfReal.new,                      # White time left (seconds)
 	
 	# Misc props
-	"FG": SgfCompose.new.bind(SgfNumber.new, SgfText.new),
-	"PM": SgfNumber.new,
-	"VW": SgfPointList.new.bind(true),
+	"FG": SgfCompose.new.bind(SgfNumber.new, SgfText.new), # Figure property (for printing diagrams)
+	"PM": SgfNumber.new,                    # Print move numbers style
+	"VW": SgfPointList.new.bind(true),      # View only part of the board
+	
+	# Go specific
+	"HA": SgfNumber.new,                    # Handicap
+	"KM": SgfReal.new,                      # Komi
+	"TB": SgfPointList.new.bind(true),      # Black territory
+	"TW": SgfPointList.new.bind(true),      # White territory
 }
 
 class SgfTypeBase:
@@ -145,6 +151,9 @@ class SgfPoint extends SgfTypeBase:
 		if x and y:
 			return "[" + int_to_chr(x) + int_to_chr(y) + "]"
 		return "[]"
+
+	func to_ivec() -> Vector2i:
+		return Vector2i(x,y)
 
 class SgfPointList extends SgfTypeBase:
 	var points: Array[Vector2i] = []
@@ -235,8 +244,8 @@ static func _prop_trim(s: String) -> String:
 	return s.substr(1, s.length() - 2)
 
 class SgfCompose extends SgfTypeBase:
-	var left_value: Variant
-	var right_value: Variant
+	var left_value: Variant = null
+	var right_value: Variant = null
 	
 	func _init(texts: Array[String], left_type: Callable, right_type: Callable) -> void:
 		assert(len(texts) == 1)

@@ -18,6 +18,16 @@ class SgfNode:
 			properties[key] = SgfTypes.PROP_TYPES[key].call(values)
 		elif LOG_LEVEL > 0:
 			print("Unknown property: ", key, values)
+	
+	func build_tree() -> Array[SgfNode]:
+		var tree: Array[SgfNode] = [self]
+		var top: SgfNode = self
+		while top.parent != null:
+			top = top.parent
+			tree.append(top)
+		
+		tree.reverse()
+		return tree
 
 class SgfFile:
 	const WHITESPACE = " \n\r\t"

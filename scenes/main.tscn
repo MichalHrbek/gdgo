@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://bcxwy2weokxef"]
+
+[ext_resource type="Script" uid="uid://dlpfgk8x0nyla" path="res://scripts/sgf/sgf.gd" id="1_jyhfs"]
+[ext_resource type="Script" uid="uid://d4bwd2p4ppo3l" path="res://scripts/go/ui/board.gd" id="2_tbgi4"]
+[ext_resource type="Script" uid="uid://cftxeap8dnx5r" path="res://scripts/sgf/sgf_tree_vis.gd" id="3_tefeu"]
+
+[node name="Node2D" type="Node2D" unique_id=1049589408]
+
+[node name="Node" type="Node" parent="." unique_id=1646888487]
+script = ExtResource("1_jyhfs")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=816240048]
+
+[node name="GameBoard" type="GridContainer" parent="CanvasLayer" unique_id=1065108175]
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+script = ExtResource("2_tbgi4")
+
+[node name="SgfTreeVis" type="GridContainer" parent="CanvasLayer" unique_id=924592565 node_paths=PackedStringArray("board")]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+script = ExtResource("3_tefeu")
+board = NodePath("../GameBoard")
