@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://bcxwy2weokxef"]
+
+[ext_resource type="Script" uid="uid://dlpfgk8x0nyla" path="res://scripts/sgf.gd" id="1_ig7tw"]
+
+[node name="Node2D" type="Node2D" unique_id=1049589408]
+
+[node name="Node" type="Node" parent="." unique_id=1646888487]
+script = ExtResource("1_ig7tw")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=816240048]
