@@ -1,12 +1,7 @@
 class_name SGF
 extends Node
 
-func _ready() -> void:
-	#var s := SgfFile.new("(;FF[4]GM[1]SZ[19];B[aa];W[bb];B[cc];W[dd];B[ad];W[bd])")
-	var s := SgfFile.new(FileAccess.open("res://examples/ff4_ex.sgf.txt", FileAccess.READ).get_as_text())
-	s.parse()
-	print(s.roots)
-	print(len(s.roots))
+const LOG_LEVEL := 1
 
 class SgfNode:
 	var parent: SgfNode
@@ -19,12 +14,10 @@ class SgfNode:
 			parent.children.append(self)
 	
 	func assign_prop(key: String, values: Array[String]) -> void:
-		#print(key, values)
 		if SgfTypes.PROP_TYPES.has(key):
 			properties[key] = SgfTypes.PROP_TYPES[key].call(values)
-		else:
-			pass
-			#print("^^ unknown key")
+		elif LOG_LEVEL > 0:
+			print("Unknown property: ", key, values)
 
 class SgfFile:
 	const WHITESPACE = " \n\r\t"
@@ -93,22 +86,23 @@ class SgfFile:
 				value += consume()
 		
 		node.assign_prop(key.strip_edges(), values)
+		if LOG_LEVEL > 1 and node.properties.has(key.strip_edges()):
+			print(key.strip_edges(),str(node.properties[key.strip_edges()]))
 		return !node_ended
 	
 	func parse() -> void:
 		var top: SgfNode = null
-		var index := 0
 		while available():
 			var c = consume()
 			if c == "(":
 				stack.push_back(top)
 			elif c == ")":
-				stack.pop_back()
-				top = stack.back()
+				top = stack.pop_back()
+				#top = stack.back()
 			elif c == ";":
+				if LOG_LEVEL > 1:
+					print("-------------", top)
 				var n = SgfNode.new(top)
-				index += 1
-				#print(index)
 				if top == null and len(stack) == 2:
 					roots.append(n)
 				top = n
