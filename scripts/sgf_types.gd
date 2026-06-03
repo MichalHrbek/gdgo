@@ -231,6 +231,9 @@ static func _str_arr_cast(arr: Array) -> Array[String]:
 	typed.assign(arr)
 	return typed
 
+static func _prop_trim(s: String) -> String:
+	return s.substr(1, s.length() - 2)
+
 class SgfCompose extends SgfTypeBase:
 	var left_value: Variant
 	var right_value: Variant
@@ -251,8 +254,8 @@ class SgfCompose extends SgfTypeBase:
 	
 	func _to_string() -> String:
 		if right_value:
-			return "[%s:%s]" % [left_value, right_value]
-		return "[%s]" % left_value
+			return "[%s:%s]" % [SgfTypes._prop_trim(str(left_value)), SgfTypes._prop_trim(str(right_value))]
+		return str(left_value)
 	
 	static var _compose_regex = RegEx.new()
 	static func _regex_split(subject: String, regex: RegEx) -> Array[String]:
