@@ -96,10 +96,14 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if current_node:
 		if event is InputEventKey:
 			if event.is_action_pressed("ui_right"):
-				if current_node.children:
+				if event.ctrl_pressed:
+					load_node(current_node.next_crossroad())
+				elif current_node.children:
 					load_node(current_node.children[0])
 			elif event.is_action_pressed("ui_left"):
-				if current_node.parent:
+				if event.ctrl_pressed:
+					load_node(current_node.prev_crossroad())
+				elif current_node.parent:
 					load_node(current_node.parent)
 			elif event.is_action_pressed("ui_down"):
 				if current_node.parent:
@@ -109,3 +113,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 				if current_node.parent:
 					var l := len(current_node.parent.children)
 					load_node(current_node.parent.children[(current_node.parent.children.find(current_node)-1)%l])
+			elif event.is_action_pressed("ui_home"):
+				load_node(root)
+			elif event.is_action_pressed("ui_end"):
+				load_node(current_node.left_leaf())

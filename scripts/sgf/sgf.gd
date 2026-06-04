@@ -28,6 +28,25 @@ class SgfNode:
 		
 		tree.reverse()
 		return tree
+	
+	func left_leaf() -> SgfNode:
+		if children:
+			return children[0].left_leaf()
+		return self
+	
+	func next_crossroad() -> SgfNode:
+		if children:
+			if len(children[0].children) == 1:
+				return children[0].next_crossroad()
+			return children[0]
+		return self
+	
+	func prev_crossroad() -> SgfNode:
+		if parent:
+			if len(parent.children) <= 1:
+				return parent.prev_crossroad()
+			return parent
+		return self
 
 class SgfFile:
 	const WHITESPACE = " \n\r\t"
