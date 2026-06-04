@@ -4,6 +4,7 @@ extends RefCounted
 const NONE = Stone.StoneColor.NONE
 const WHITE = Stone.StoneColor.WHITE
 const BLACK = Stone.StoneColor.BLACK
+const BOTH = Stone.StoneColor.BOTH
 
 var board_size: Vector2i = Vector2i(19,19)
 var stones: Dictionary[Vector2i, Stone] = {}
@@ -13,6 +14,7 @@ var move_number := 0
 
 var black_captured := 0 # Black stones that have been captured
 var white_captured := 0 # White stones that have been captured
+var passed = Stone.StoneColor.NONE
 
 var arrows: Array[Arrow] = []
 var lines: Array[Line] = []
@@ -102,6 +104,18 @@ func after_move_check(move: Vector2i):
 	
 	record_captured(c, clear_if_dead(move))
 
+func record_pass(color: Stone.StoneColor) -> void:
+	if passed == NONE:
+		passed = color
+		return
+	
+	if color == NONE:
+		passed = NONE
+		return
+	
+	if (color != passed) or passed == BOTH:
+		passed = BOTH
+
 static func from_sgf(node: SGF.SgfNode) -> GameState:
 	var s = GameState.new()
 	var tree = node.build_tree()
@@ -112,14 +126,22 @@ static func from_sgf(node: SGF.SgfNode) -> GameState:
 			match p:
 				"B":
 					assert(value is SgfTypes.SgfPoint)
-					s.get_stone(value.to_ivec()).color = BLACK
-					s.after_move_check(value.to_ivec())
+					if (not value.to_ivec()) or (value.x == 20 and value.y == 20 and s.board_size == Vector2i(19,19)):
+						s.record_pass(BLACK)
+					else:
+						s.record_pass(NONE)
+						s.get_stone(value.to_ivec()).color = BLACK
+						s.after_move_check(value.to_ivec())
 					s.to_play = WHITE
 					s.move_number += 1
 				"W":
 					assert(value is SgfTypes.SgfPoint)
-					s.get_stone(value.to_ivec()).color = Stone.StoneColor.WHITE
-					s.after_move_check(value.to_ivec())
+					if (not value.to_ivec()) or (value.x == 20 and value.y == 20 and s.board_size == Vector2i(19,19)):
+						s.record_pass(WHITE)
+					else:
+						s.record_pass(NONE)
+						s.get_stone(value.to_ivec()).color = WHITE
+						s.after_move_check(value.to_ivec())
 					s.to_play = BLACK
 					s.move_number += 1
 				"AB":

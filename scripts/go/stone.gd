@@ -11,6 +11,7 @@ enum StoneColor {
 	NONE,
 	WHITE,
 	BLACK,
+	BOTH, # Used for pass
 }
 
 enum StoneMarkup {
