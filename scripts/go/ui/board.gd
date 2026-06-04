@@ -5,6 +5,7 @@ var control_grid: Dictionary[Vector2i, Control] = {}
 var rows := 0
 
 const board_piece_scene: PackedScene = preload("res://scenes/board_piece.tscn")
+var last_viewport_size: Vector2
 
 func _board_label(text: String) -> Label:
 	var label := Label.new()
@@ -50,10 +51,20 @@ func create(state: GameState) -> void:
 			
 			control_grid[pos].add_child(piece)
 
+func ensure_size():
+	var fit_scale = min(get_viewport_rect().size.y*0.75/(64.0*rows), get_viewport_rect().size.x*0.8/(64.0*columns))
+	scale = Vector2(fit_scale,fit_scale)
+	get_parent().custom_minimum_size = size*scale
 
 func _on_state_changed(state: GameState, _node: SGF.SgfNode) -> void:
-	print()
 	if control_grid:
 		goto(state)
 	else:
 		create(state)
+	ensure_size()
+
+func _ready() -> void:
+	resized.connect(ensure_size)
+	get_viewport().size_changed.connect(ensure_size)
+	ensure_size()
+	
