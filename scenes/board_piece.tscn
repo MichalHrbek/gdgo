@@ -1,14 +1,21 @@
 [gd_scene format=3 uid="uid://bt7eoyoj6yo3e"]
 
 [ext_resource type="Script" uid="uid://c6lui3xkwn8j" path="res://scripts/go/ui/board_piece.gd" id="1_kovof"]
-[ext_resource type="Texture2D" uid="uid://fq2hhuxbx540" path="res://assets/stone_black.svg" id="2_kovof"]
-[ext_resource type="Texture2D" uid="uid://be3u045e6woxv" path="res://assets/grid_bottom.svg" id="2_my1nj"]
-[ext_resource type="Texture2D" uid="uid://b1fjj6wg1am83" path="res://assets/grid_top.svg" id="3_1f78n"]
-[ext_resource type="Texture2D" uid="uid://b2x8jeis2ij54" path="res://assets/stone_white.svg" id="3_my1nj"]
-[ext_resource type="Texture2D" uid="uid://dtvk1dw3s4iqo" path="res://assets/grid_left.svg" id="4_ul1dh"]
-[ext_resource type="Texture2D" uid="uid://bawuutc5yl8jr" path="res://assets/grid_right.svg" id="5_675k6"]
+[ext_resource type="Texture2D" uid="uid://be3u045e6woxv" path="res://assets/grid/grid_bottom.svg" id="2_my1nj"]
+[ext_resource type="Texture2D" uid="uid://b1fjj6wg1am83" path="res://assets/grid/grid_top.svg" id="3_1f78n"]
+[ext_resource type="Texture2D" uid="uid://dtvk1dw3s4iqo" path="res://assets/grid/grid_left.svg" id="4_ul1dh"]
+[ext_resource type="Texture2D" uid="uid://bawuutc5yl8jr" path="res://assets/grid/grid_right.svg" id="5_675k6"]
+[ext_resource type="Texture2D" uid="uid://bjahbwc55i31x" path="res://assets/stones/stone.svg" id="6_oenme"]
+[ext_resource type="Texture2D" uid="uid://n4eddklu5mg" path="res://assets/markup_symbols/circle.svg" id="8_0jmdt"]
+[ext_resource type="Texture2D" uid="uid://dl4m571s0sfqn" path="res://assets/markup_symbols/cross.svg" id="9_21166"]
+[ext_resource type="Texture2D" uid="uid://d3vg4l78clylk" path="res://assets/markup_symbols/selected.svg" id="10_0jmdt"]
+[ext_resource type="Texture2D" uid="uid://cv1igefx223np" path="res://assets/markup_symbols/square.svg" id="10_dipwr"]
+[ext_resource type="Texture2D" uid="uid://cddv7qsbuguku" path="res://assets/markup_symbols/triangle.svg" id="11_hljhe"]
 
-[node name="BoardPiece" type="Control" unique_id=509857418 node_paths=PackedStringArray("black_stone", "white_stone", "grid_top", "grid_bottom", "grid_left", "grid_right")]
+[sub_resource type="LabelSettings" id="LabelSettings_0jmdt"]
+font_color = Color(9.62615e-08, 0.8833101, 0.48493898, 1)
+
+[node name="BoardPiece" type="Control" unique_id=509857418 node_paths=PackedStringArray("black_stone", "white_stone", "markup_circle", "markup_cross", "markup_square", "markup_selected", "markup_triangle", "markup_territory", "markup_label", "grid_top", "grid_bottom", "grid_left", "grid_right")]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 64.0
@@ -16,6 +23,13 @@ offset_bottom = 64.0
 script = ExtResource("1_kovof")
 black_stone = NodePath("StoneBlack")
 white_stone = NodePath("StoneWhite")
+markup_circle = NodePath("MarkupCircle")
+markup_cross = NodePath("MarkupCross")
+markup_square = NodePath("MarkupSquare")
+markup_selected = NodePath("MarkupSelected")
+markup_triangle = NodePath("MarkupTriangle")
+markup_territory = NodePath("MarkupTerritory")
+markup_label = NodePath("Label")
 grid_top = NodePath("GridTop")
 grid_bottom = NodePath("GridBottom")
 grid_left = NodePath("GridLeft")
@@ -60,11 +74,83 @@ visible = false
 layout_mode = 0
 offset_right = 64.0
 offset_bottom = 64.0
-texture = ExtResource("3_my1nj")
+texture = ExtResource("6_oenme")
 
 [node name="StoneBlack" type="TextureRect" parent="." unique_id=151266631]
 visible = false
+self_modulate = Color(0, 0, 0, 1)
 layout_mode = 0
 offset_right = 64.0
 offset_bottom = 64.0
-texture = ExtResource("2_kovof")
+texture = ExtResource("6_oenme")
+
+[node name="MarkupCircle" type="TextureRect" parent="." unique_id=1834623512]
+visible = false
+self_modulate = Color(1, 0, 0, 1)
+texture_filter = 1
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 64.0
+texture = ExtResource("8_0jmdt")
+
+[node name="MarkupCross" type="TextureRect" parent="." unique_id=1432507036]
+visible = false
+self_modulate = Color(1, 0, 0, 1)
+texture_filter = 1
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 64.0
+texture = ExtResource("9_21166")
+
+[node name="MarkupTerritory" type="TextureRect" parent="." unique_id=425743289]
+visible = false
+texture_filter = 1
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 64.0
+texture = ExtResource("9_21166")
+
+[node name="MarkupSquare" type="TextureRect" parent="." unique_id=1867984273]
+visible = false
+self_modulate = Color(1, 0, 0, 1)
+texture_filter = 1
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 64.0
+texture = ExtResource("10_dipwr")
+
+[node name="MarkupSelected" type="TextureRect" parent="." unique_id=1097410083]
+visible = false
+self_modulate = Color(1, 0, 0, 1)
+texture_filter = 1
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 64.0
+texture = ExtResource("10_0jmdt")
+
+[node name="MarkupTriangle" type="TextureRect" parent="." unique_id=1590429972]
+visible = false
+self_modulate = Color(1, 0, 0, 1)
+texture_filter = 1
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 64.0
+texture = ExtResource("11_hljhe")
+
+[node name="Label" type="Label" parent="." unique_id=1881120834]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -0.5
+offset_top = -11.5
+offset_right = 0.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_0jmdt")
+horizontal_alignment = 1
+vertical_alignment = 1

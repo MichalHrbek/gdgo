@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b1fjj6wg1am83"
-path="res://.godot/imported/grid_top.svg-e130006bdd6c0eba12b046f0e7e3d183.ctex"
+uid="uid://cddv7qsbuguku"
+path="res://.godot/imported/triangle.svg-275f91b40bfd8b7d83c32328c838568f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/grid_top.svg"
-dest_files=["res://.godot/imported/grid_top.svg-e130006bdd6c0eba12b046f0e7e3d183.ctex"]
+source_file="res://assets/markup_symbols/triangle.svg"
+dest_files=["res://.godot/imported/triangle.svg-275f91b40bfd8b7d83c32328c838568f.ctex"]
 
 [params]
 

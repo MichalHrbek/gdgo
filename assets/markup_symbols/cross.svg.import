@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://be3u045e6woxv"
-path="res://.godot/imported/grid_bottom.svg-9728627581be5e068afe9932ce5426e0.ctex"
+uid="uid://dl4m571s0sfqn"
+path="res://.godot/imported/cross.svg-1cf220c7c2fa04db4d23bbb9466086dc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/grid_bottom.svg"
-dest_files=["res://.godot/imported/grid_bottom.svg-9728627581be5e068afe9932ce5426e0.ctex"]
+source_file="res://assets/markup_symbols/cross.svg"
+dest_files=["res://.godot/imported/cross.svg-1cf220c7c2fa04db4d23bbb9466086dc.ctex"]
 
 [params]
 

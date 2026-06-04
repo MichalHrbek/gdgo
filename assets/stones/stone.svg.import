@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dtvk1dw3s4iqo"
-path="res://.godot/imported/grid_left.svg-c0450bd2d8dc1551f3665da0831a148b.ctex"
+uid="uid://bjahbwc55i31x"
+path="res://.godot/imported/stone.svg-bfca1e5f1b8535f37f56302766f994e9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/grid_left.svg"
-dest_files=["res://.godot/imported/grid_left.svg-c0450bd2d8dc1551f3665da0831a148b.ctex"]
+source_file="res://assets/stones/stone.svg"
+dest_files=["res://.godot/imported/stone.svg-bfca1e5f1b8535f37f56302766f994e9.ctex"]
 
 [params]
 

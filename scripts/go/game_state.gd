@@ -69,4 +69,39 @@ static func from_sgf(node: SGF.SgfNode) -> GameState:
 		match p:
 			"C":
 				s.comment = value.value
+			"CR":
+				assert(value is SgfTypes.SgfPointList)
+				for i in value.points:
+					s.get_stone(i).markup = Stone.StoneMarkup.CIRCLE
+			"LB":
+				assert(value is SgfTypes.SgfList)
+				for i in value.values:
+					assert(i is SgfTypes.SgfCompose)
+					assert(i.left_value is SgfTypes.SgfPoint)
+					assert(i.right_value is SgfTypes.SgfText)
+					s.get_stone(i.left_value.to_ivec()).label = i.right_value.value
+			"MA":
+				assert(value is SgfTypes.SgfPointList)
+				for i in value.points:
+					s.get_stone(i).markup = Stone.StoneMarkup.CROSS
+			"SL":
+				assert(value is SgfTypes.SgfPointList)
+				for i in value.points:
+					s.get_stone(i).markup = Stone.StoneMarkup.SELECTED
+			"SQ":
+				assert(value is SgfTypes.SgfPointList)
+				for i in value.points:
+					s.get_stone(i).markup = Stone.StoneMarkup.SQUARE
+			"TR":
+				assert(value is SgfTypes.SgfPointList)
+				for i in value.points:
+					s.get_stone(i).markup = Stone.StoneMarkup.TRIANGLE
+			"TW":
+				assert(value is SgfTypes.SgfPointList)
+				for i in value.points:
+					s.get_stone(i).territory = Stone.StoneColor.WHITE
+			"TB":
+				assert(value is SgfTypes.SgfPointList)
+				for i in value.points:
+					s.get_stone(i).territory = Stone.StoneColor.BLACK
 	return s
