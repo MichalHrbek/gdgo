@@ -95,12 +95,12 @@ func _on_node_clicked(event: InputEvent, index: int) -> void:
 func _unhandled_key_input(event: InputEvent) -> void:
 	if current_node:
 		if event is InputEventKey:
-			if event.is_action_pressed("ui_right"):
+			if event.is_action_pressed("ui_right") or event.shift_pressed and event.is_action("ui_right"):
 				if event.ctrl_pressed:
 					load_node(current_node.next_crossroad())
 				elif current_node.children:
 					load_node(current_node.children[0])
-			elif event.is_action_pressed("ui_left"):
+			elif event.is_action_pressed("ui_left") or event.shift_pressed and event.is_action("ui_left"):
 				if event.ctrl_pressed:
 					load_node(current_node.prev_crossroad())
 				elif current_node.parent:
