@@ -2,7 +2,8 @@
 
 [ext_resource type="Script" uid="uid://dlpfgk8x0nyla" path="res://scripts/sgf/sgf.gd" id="1_jyhfs"]
 [ext_resource type="Script" uid="uid://d4bwd2p4ppo3l" path="res://scripts/go/ui/board.gd" id="2_tbgi4"]
-[ext_resource type="Script" uid="uid://cftxeap8dnx5r" path="res://scripts/sgf/sgf_tree_vis.gd" id="3_tefeu"]
+[ext_resource type="Script" uid="uid://dm8721x0payo4" path="res://scripts/go/ui/comment_box.gd" id="3_jyhfs"]
+[ext_resource type="Script" uid="uid://cftxeap8dnx5r" path="res://scripts/go/ui/sgf_tree_vis.gd" id="3_tefeu"]
 
 [node name="Node2D" type="Node2D" unique_id=1049589408]
 
@@ -11,20 +12,48 @@ script = ExtResource("1_jyhfs")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=816240048]
 
-[node name="GameBoard" type="GridContainer" parent="CanvasLayer" unique_id=1065108175]
-offset_right = 40.0
-offset_bottom = 40.0
-theme_override_constants/h_separation = 0
-theme_override_constants/v_separation = 0
-script = ExtResource("2_tbgi4")
-
-[node name="SgfTreeVis" type="GridContainer" parent="CanvasLayer" unique_id=924592565 node_paths=PackedStringArray("board")]
-visible = false
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer" unique_id=557226436]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/VBoxContainer" unique_id=159786964]
+layout_mode = 2
+
+[node name="GameBoard" type="GridContainer" parent="CanvasLayer/VBoxContainer/HBoxContainer" unique_id=1065108175]
+layout_mode = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+script = ExtResource("2_tbgi4")
+
+[node name="VSeparator" type="VSeparator" parent="CanvasLayer/VBoxContainer/HBoxContainer" unique_id=1198823738]
+layout_mode = 2
+theme_override_constants/separation = 64
+
+[node name="Comment" type="Label" parent="CanvasLayer/VBoxContainer/HBoxContainer" unique_id=469330276]
+layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 1
+vertical_alignment = 1
+script = ExtResource("3_jyhfs")
+
+[node name="HSeparator" type="HSeparator" parent="CanvasLayer/VBoxContainer" unique_id=209413034]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/VBoxContainer" unique_id=1065278627]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SgfTreeVis" type="GridContainer" parent="CanvasLayer/VBoxContainer/ScrollContainer" unique_id=924592565 node_paths=PackedStringArray("board")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("3_tefeu")
-board = NodePath("../GameBoard")
+board = NodePath("../../HBoxContainer/GameBoard")
+
+[connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/GameBoard" method="_on_state_changed"]
+[connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/Comment" method="_on_state_changed"]

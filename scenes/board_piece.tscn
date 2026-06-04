@@ -1,11 +1,14 @@
 [gd_scene format=3 uid="uid://bt7eoyoj6yo3e"]
 
 [ext_resource type="Script" uid="uid://c6lui3xkwn8j" path="res://scripts/go/ui/board_piece.gd" id="1_kovof"]
-[ext_resource type="Texture2D" uid="uid://dj6dm1nhvvsii" path="res://assets/board_grid.svg" id="1_wmxh2"]
 [ext_resource type="Texture2D" uid="uid://fq2hhuxbx540" path="res://assets/stone_black.svg" id="2_kovof"]
+[ext_resource type="Texture2D" uid="uid://be3u045e6woxv" path="res://assets/grid_bottom.svg" id="2_my1nj"]
+[ext_resource type="Texture2D" uid="uid://b1fjj6wg1am83" path="res://assets/grid_top.svg" id="3_1f78n"]
 [ext_resource type="Texture2D" uid="uid://b2x8jeis2ij54" path="res://assets/stone_white.svg" id="3_my1nj"]
+[ext_resource type="Texture2D" uid="uid://dtvk1dw3s4iqo" path="res://assets/grid_left.svg" id="4_ul1dh"]
+[ext_resource type="Texture2D" uid="uid://bawuutc5yl8jr" path="res://assets/grid_right.svg" id="5_675k6"]
 
-[node name="BoardPiece" type="Control" unique_id=509857418 node_paths=PackedStringArray("black_stone", "white_stone")]
+[node name="BoardPiece" type="Control" unique_id=509857418 node_paths=PackedStringArray("black_stone", "white_stone", "grid_top", "grid_bottom", "grid_left", "grid_right")]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 64.0
@@ -13,6 +16,10 @@ offset_bottom = 64.0
 script = ExtResource("1_kovof")
 black_stone = NodePath("StoneBlack")
 white_stone = NodePath("StoneWhite")
+grid_top = NodePath("GridTop")
+grid_bottom = NodePath("GridBottom")
+grid_left = NodePath("GridLeft")
+grid_right = NodePath("GridRight")
 
 [node name="Wood" type="ColorRect" parent="." unique_id=1202563979]
 layout_mode = 0
@@ -20,26 +27,44 @@ offset_right = 64.0
 offset_bottom = 64.0
 color = Color(0.7294118, 0.4745098, 0.32156864, 1)
 
-[node name="Grid" type="TextureRect" parent="." unique_id=1384600404]
+[node name="GridBottom" type="TextureRect" parent="." unique_id=1384600404]
+texture_filter = 1
 layout_mode = 0
 offset_right = 64.0
 offset_bottom = 64.0
-texture = ExtResource("1_wmxh2")
+texture = ExtResource("2_my1nj")
+
+[node name="GridTop" type="TextureRect" parent="." unique_id=850293255]
+texture_filter = 1
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 64.0
+texture = ExtResource("3_1f78n")
+
+[node name="GridLeft" type="TextureRect" parent="." unique_id=2099639694]
+texture_filter = 1
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 64.0
+texture = ExtResource("4_ul1dh")
+
+[node name="GridRight" type="TextureRect" parent="." unique_id=1579240083]
+texture_filter = 1
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 64.0
+texture = ExtResource("5_675k6")
 
 [node name="StoneWhite" type="TextureRect" parent="." unique_id=1290633242]
 visible = false
 layout_mode = 0
-offset_left = -32.0
-offset_top = -32.0
-offset_right = 32.0
-offset_bottom = 32.0
+offset_right = 64.0
+offset_bottom = 64.0
 texture = ExtResource("3_my1nj")
 
 [node name="StoneBlack" type="TextureRect" parent="." unique_id=151266631]
 visible = false
 layout_mode = 0
-offset_left = -32.0
-offset_top = -32.0
-offset_right = 32.0
-offset_bottom = 32.0
+offset_right = 64.0
+offset_bottom = 64.0
 texture = ExtResource("2_kovof")
