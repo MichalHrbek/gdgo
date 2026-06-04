@@ -20,8 +20,6 @@ func _ready() -> void:
 	#var s := SGF.SgfFile.new(FileAccess.open("res://examples/print1.sgf.txt", FileAccess.READ).get_as_text())
 	s.parse()
 	create_tree(s.roots[0])
-	#print(by_id[18].properties)
-	#board.create(GameState.from_sgf(by_id[19]))
 
 func create_tree(new_root: SGF.SgfNode) -> void:
 	root = new_root

@@ -112,21 +112,18 @@ class SgfDouble extends SgfTypeBase:
 		return "[%d]" % value
 
 class SgfColor extends SgfTypeBase:
-	const WHITE = 1
-	const BLACK = 2
-	
-	var value := 0
+	var value := Stone.StoneColor.NONE
 	func _init(texts: Array[String]) -> void:
 		assert(len(texts) == 1)
 		if texts[0] == "W":
-			value = WHITE
+			value = Stone.StoneColor.WHITE
 		elif texts[0] == "B":
-			value = BLACK
+			value = Stone.StoneColor.BLACK
 		else:
 			push_error("Invalid color: %s" % texts[0])
 	
 	func _to_string() -> String:
-		return "[W]" if value == WHITE else "[B]"
+		return "[W]" if value == Stone.StoneColor.WHITE else "[B]"
 
 class SgfPoint extends SgfTypeBase:
 	# 1-indexed
