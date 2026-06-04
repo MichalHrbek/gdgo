@@ -7,6 +7,8 @@ var rows := 0
 const board_piece_scene: PackedScene = preload("res://scenes/board_piece.tscn")
 var last_viewport_size: Vector2
 
+var current_state: GameState
+
 func _board_label(text: String) -> Label:
 	var label := Label.new()
 	label.text = text
@@ -48,8 +50,15 @@ func create(state: GameState) -> void:
 			
 			var piece: BoardPiece = board_piece_scene.instantiate()
 			piece.update(state.get_stone(pos), pos, state.board_size)
+			piece.gui_input.connect(_on_piece_input_event.bind(pos))
 			
 			control_grid[pos].add_child(piece)
+
+func _on_piece_input_event(event: InputEvent, pos: Vector2i) -> void:
+	if event is InputEventMouseButton:
+		if event.pressed:
+			if event.button_index == MouseButton.MOUSE_BUTTON_LEFT:
+				pass
 
 func ensure_size():
 	var fit_scale = min(get_viewport_rect().size.y*0.75/(64.0*rows), get_viewport_rect().size.x*0.8/(64.0*columns))
@@ -57,6 +66,7 @@ func ensure_size():
 	get_parent().custom_minimum_size = size*scale
 
 func _on_state_changed(state: GameState, _node: SGF.SgfNode) -> void:
+	current_state = state
 	if control_grid:
 		goto(state)
 	else:
