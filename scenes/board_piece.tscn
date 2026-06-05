@@ -42,28 +42,28 @@ offset_bottom = 64.0
 color = Color(0.7294118, 0.4745098, 0.32156864, 1)
 
 [node name="GridBottom" type="TextureRect" parent="." unique_id=1384600404]
-texture_filter = 1
+texture_filter = 2
 layout_mode = 0
 offset_right = 64.0
 offset_bottom = 64.0
 texture = ExtResource("2_my1nj")
 
 [node name="GridTop" type="TextureRect" parent="." unique_id=850293255]
-texture_filter = 1
+texture_filter = 2
 layout_mode = 0
 offset_right = 64.0
 offset_bottom = 64.0
 texture = ExtResource("3_1f78n")
 
 [node name="GridLeft" type="TextureRect" parent="." unique_id=2099639694]
-texture_filter = 1
+texture_filter = 2
 layout_mode = 0
 offset_right = 64.0
 offset_bottom = 64.0
 texture = ExtResource("4_ul1dh")
 
 [node name="GridRight" type="TextureRect" parent="." unique_id=1579240083]
-texture_filter = 1
+texture_filter = 2
 layout_mode = 0
 offset_right = 64.0
 offset_bottom = 64.0
@@ -71,6 +71,7 @@ texture = ExtResource("5_675k6")
 
 [node name="StoneWhite" type="TextureRect" parent="." unique_id=1290633242]
 visible = false
+texture_filter = 2
 layout_mode = 0
 offset_right = 64.0
 offset_bottom = 64.0
@@ -79,6 +80,7 @@ texture = ExtResource("6_oenme")
 [node name="StoneBlack" type="TextureRect" parent="." unique_id=151266631]
 visible = false
 self_modulate = Color(0, 0, 0, 1)
+texture_filter = 2
 layout_mode = 0
 offset_right = 64.0
 offset_bottom = 64.0
@@ -87,7 +89,7 @@ texture = ExtResource("6_oenme")
 [node name="MarkupCircle" type="TextureRect" parent="." unique_id=1834623512]
 visible = false
 self_modulate = Color(1, 0, 0, 1)
-texture_filter = 1
+texture_filter = 2
 layout_mode = 0
 offset_right = 64.0
 offset_bottom = 64.0
@@ -96,7 +98,7 @@ texture = ExtResource("8_0jmdt")
 [node name="MarkupCross" type="TextureRect" parent="." unique_id=1432507036]
 visible = false
 self_modulate = Color(1, 0, 0, 1)
-texture_filter = 1
+texture_filter = 2
 layout_mode = 0
 offset_right = 64.0
 offset_bottom = 64.0
@@ -104,7 +106,7 @@ texture = ExtResource("9_21166")
 
 [node name="MarkupTerritory" type="TextureRect" parent="." unique_id=425743289]
 visible = false
-texture_filter = 1
+texture_filter = 2
 layout_mode = 0
 offset_right = 64.0
 offset_bottom = 64.0
@@ -113,7 +115,7 @@ texture = ExtResource("9_21166")
 [node name="MarkupSquare" type="TextureRect" parent="." unique_id=1867984273]
 visible = false
 self_modulate = Color(1, 0, 0, 1)
-texture_filter = 1
+texture_filter = 2
 layout_mode = 0
 offset_right = 64.0
 offset_bottom = 64.0
@@ -122,7 +124,7 @@ texture = ExtResource("10_dipwr")
 [node name="MarkupSelected" type="TextureRect" parent="." unique_id=1097410083]
 visible = false
 self_modulate = Color(1, 0, 0, 1)
-texture_filter = 1
+texture_filter = 2
 layout_mode = 0
 offset_right = 64.0
 offset_bottom = 64.0
@@ -131,7 +133,7 @@ texture = ExtResource("10_0jmdt")
 [node name="MarkupTriangle" type="TextureRect" parent="." unique_id=1590429972]
 visible = false
 self_modulate = Color(1, 0, 0, 1)
-texture_filter = 1
+texture_filter = 2
 layout_mode = 0
 offset_right = 64.0
 offset_bottom = 64.0
