@@ -136,6 +136,9 @@ class SgfPoint extends SgfTypeBase:
 	static func int_to_chr(n: int) -> String:
 		return String.chr(ord('a')+n-1)
 	
+	static func from_vec(pos: Vector2i) -> SgfPoint:
+		return SgfPoint.new([int_to_chr(pos.x)+int_to_chr(pos.y)])
+	
 	func _init(texts: Array[String]) -> void:
 		assert(len(texts) == 1)
 		if len(texts[0]) == 2:

@@ -1,7 +1,6 @@
 class_name BoardPiece
 extends Control
 
-var star := false
 @export var black_stone: Control
 @export var white_stone: Control
 
@@ -18,6 +17,26 @@ var star := false
 @export var grid_left: Control
 @export var grid_right: Control
 
+var current_state: Stone = null
+
+func show_potenial(color: Stone.StoneColor) -> void:
+	if current_state.color != Stone.StoneColor.NONE:
+		return
+	if color == Stone.StoneColor.WHITE:
+		white_stone.self_modulate.a = 0.5
+		white_stone.show()
+	elif color == Stone.StoneColor.BLACK:
+		black_stone.self_modulate.a = 0.5
+		black_stone.show()
+
+func hide_potential():
+	if current_state.color != Stone.StoneColor.NONE:
+		return
+	
+	white_stone.self_modulate.a = 1.0
+	black_stone.self_modulate.a = 1.0
+	black_stone.hide()
+	white_stone.hide()
 
 func update(stone: Stone, pos: Vector2, board_size: Vector2i) -> void:
 	grid_top.show()
@@ -30,16 +49,16 @@ func update(stone: Stone, pos: Vector2, board_size: Vector2i) -> void:
 	if pos.x == board_size.x: grid_right.hide()
 	if pos.y == board_size.y: grid_bottom.hide()
 	
-	#white_stone.self_modulate.a = 0.5 if stone.dim else 1.0
-	#black_stone.self_modulate.a = 0.5 if stone.dim else 1.0
-	
 	self.visible = stone.in_view
 	self.modulate = Color.GRAY if stone.dim else Color.WHITE
 	
+	
 	if stone.color == Stone.StoneColor.WHITE:
+		white_stone.self_modulate.a = 1.0
 		white_stone.show()
 		black_stone.hide()
 	elif stone.color == Stone.StoneColor.BLACK:
+		black_stone.self_modulate.a = 1.0
 		white_stone.hide()
 		black_stone.show()
 	else:
@@ -68,3 +87,4 @@ func update(stone: Stone, pos: Vector2, board_size: Vector2i) -> void:
 		markup_territory.hide()
 	
 	markup_label.text = stone.label
+	current_state = stone

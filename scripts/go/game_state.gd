@@ -19,6 +19,8 @@ var passed = Stone.StoneColor.NONE
 var arrows: Array[Arrow] = []
 var lines: Array[Line] = []
 
+var associated_node: SGF.SgfNode = null
+
 func get_stone(pos: Vector2i) -> Stone:
 	if not is_valid_position(pos):
 		return null
@@ -116,8 +118,27 @@ func record_pass(color: Stone.StoneColor) -> void:
 	if (color != passed) or passed == BOTH:
 		passed = BOTH
 
+func make_move(pos: Vector2i) -> GameState:
+	assert(to_play in [BLACK, WHITE])
+	if associated_node:
+		var node = SGF.SgfNode.new(associated_node)
+		var color_str := "W" if to_play == WHITE else "B"
+		node.properties[color_str] = SgfTypes.SgfPoint.from_vec(pos)
+		return from_sgf(node)
+	else:
+		if pos:
+			record_pass(NONE)
+			get_stone(pos).color = to_play
+			after_move_check(pos)
+		else:
+			record_pass(to_play)
+		if to_play == WHITE: to_play = BLACK
+		elif to_play == BLACK: to_play = WHITE
+		return self
+
 static func from_sgf(node: SGF.SgfNode) -> GameState:
 	var s = GameState.new()
+	s.associated_node = node
 	var tree = node.build_tree()
 	
 	for n in tree:

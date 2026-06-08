@@ -1,7 +1,5 @@
 extends GridContainer
 
-@export var board: Board
-
 signal state_changed(state: GameState, node: SGF.SgfNode)
 
 var root: SGF.SgfNode
@@ -23,11 +21,8 @@ func _ready() -> void:
 	#var s := SGF.SgfFile.new(FileAccess.open("res://examples/print1.sgf.txt", FileAccess.READ).get_as_text())
 	s.parse()
 	create_tree(s.roots[0])
-	#get_window().wrap_controls = true
-	#get_window().content_scale_factor = 0.75
-	#get_window().child_controls_changed()
 
-func create_tree(new_root: SGF.SgfNode) -> void:
+func create_tree(new_root: SGF.SgfNode, load_root: bool = true) -> void:
 	root = new_root
 	by_id = {}
 	by_pos = {}
@@ -35,7 +30,8 @@ func create_tree(new_root: SGF.SgfNode) -> void:
 	pos_by = {}
 	walk(new_root, 0, 0, 0, 0)
 	vis()
-	load_node(new_root)
+	if load_root:
+		load_node(new_root)
 
 func load_node(node: SGF.SgfNode):
 	if current_node:
@@ -58,11 +54,14 @@ func walk(node: SGF.SgfNode, x: int, y: int, max_y: int, index: int) -> Vector2i
 		max_y = w.y
 	return Vector2i(index, max_y)
 
-var _vis_node: Dictionary[SGF.SgfNode, Control] = {}
+var _vis_node: Dictionary[SGF.SgfNode, TreeNodeUI] = {}
 
 func vis() -> void:
 	for i in get_children():
 		i.queue_free()
+	
+	for i in sort_children.get_connections():
+		sort_children.disconnect(i["callable"])
 	
 	var height := 0
 	var width := 0
@@ -86,6 +85,11 @@ func vis() -> void:
 			else:
 				add_child(Control.new())
  
+func _on_tree_edited(node: SGF.SgfNode) -> void:
+	create_tree(root, false)
+	await get_tree().process_frame
+	load_node(node)
+
 func _on_node_clicked(event: InputEvent, index: int) -> void:
 	if event is InputEventMouseButton:
 		if event.button_index == MouseButton.MOUSE_BUTTON_LEFT:

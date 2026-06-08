@@ -10,6 +10,8 @@ var last_viewport_size: Vector2
 
 var current_state: GameState
 
+signal tree_edited(node: SGF.SgfNode)
+
 func _board_label(text: String) -> Label:
 	var label := Label.new()
 	label.text = text
@@ -49,6 +51,7 @@ func update_markup(state: GameState) -> void:
 		add_child(arrow)
 
 func goto(state: GameState) -> void:
+	current_state = state
 	for y in range(state.board_size.y):
 		for x in range(state.board_size.x):
 			var pos := Vector2i(x,y) + Vector2i.ONE
@@ -56,6 +59,7 @@ func goto(state: GameState) -> void:
 	update_markup(state)
 
 func create(state: GameState) -> void:
+	current_state = state
 	for i in get_children():
 		i.queue_free()
 	
@@ -82,6 +86,8 @@ func create(state: GameState) -> void:
 			
 			var piece: BoardPiece = board_piece_scene.instantiate()
 			piece.update(state.get_stone(pos), pos, state.board_size)
+			piece.mouse_entered.connect(func(): piece.show_potenial(current_state.to_play))
+			piece.mouse_exited.connect(piece.hide_potential)
 			piece.gui_input.connect(_on_piece_input_event.bind(pos))
 			
 			control_grid[pos].add_child(piece)
@@ -92,15 +98,21 @@ func _on_piece_input_event(event: InputEvent, pos: Vector2i) -> void:
 	if event is InputEventMouseButton:
 		if event.pressed:
 			if event.button_index == MouseButton.MOUSE_BUTTON_LEFT:
-				pass
+				if current_state.get_stone(pos).color == Stone.StoneColor.NONE:
+					make_move(pos)
 
-func ensure_size():
+func ensure_size() -> void:
 	var fit_scale = min(get_viewport_rect().size.y*0.75/(64.0*rows), get_viewport_rect().size.x*0.8/(64.0*columns))
 	scale = Vector2(fit_scale,fit_scale)
 	get_parent().custom_minimum_size = size*scale
 
+func make_move(pos: Vector2i) -> void:
+	var new_state = current_state.make_move(pos)
+	if new_state.associated_node:
+		tree_edited.emit(new_state.associated_node)
+	goto(new_state)
+
 func _on_state_changed(state: GameState, _node: SGF.SgfNode) -> void:
-	current_state = state
 	if control_grid:
 		goto(state)
 	else:

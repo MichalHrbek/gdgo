@@ -56,6 +56,33 @@ script = ExtResource("2_jyhfs")
 [node name="HSeparator" type="HSeparator" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1722079066]
 layout_mode = 2
 
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=337708708]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Button" type="Button" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1887788877]
+layout_mode = 2
+text = "Pass"
+
+[node name="Button2" type="Button" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1088284163]
+layout_mode = 2
+text = "Resign"
+
+[node name="Button3" type="Button" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1145503603]
+layout_mode = 2
+text = "Export"
+
+[node name="Button4" type="Button" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=2044835295]
+layout_mode = 2
+text = "Edit node"
+
+[node name="Button5" type="Button" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1315996745]
+layout_mode = 2
+text = "Remove node"
+
+[node name="HSeparator2" type="HSeparator" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1380624165]
+layout_mode = 2
+
 [node name="Comment" type="RichTextLabel" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1536925057]
 layout_mode = 2
 size_flags_vertical = 3
@@ -71,14 +98,16 @@ custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 size_flags_vertical = 3
 follow_focus = true
+draw_focus_border = true
 
-[node name="SgfTreeVis" type="GridContainer" parent="CanvasLayer/VBoxContainer/ScrollContainer" unique_id=924592565 node_paths=PackedStringArray("board")]
+[node name="SgfTreeVis" type="GridContainer" parent="CanvasLayer/VBoxContainer/ScrollContainer" unique_id=924592565]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("3_tefeu")
-board = NodePath("../../HBoxContainer/MarginContainer/Control/GameBoard")
 
+[connection signal="tree_edited" from="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer/Control/GameBoard" to="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" method="_on_tree_edited"]
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/Button" to="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer/Control/GameBoard" method="make_move" binds= [Vector2i(0, 0)]]
 [connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer/Control/GameBoard" method="_on_state_changed"]
 [connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/GameState" method="_on_state_changed"]
 [connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/Comment" method="_on_state_changed"]
