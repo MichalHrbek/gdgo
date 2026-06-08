@@ -30,6 +30,12 @@ func update(stone: Stone, pos: Vector2, board_size: Vector2i) -> void:
 	if pos.x == board_size.x: grid_right.hide()
 	if pos.y == board_size.y: grid_bottom.hide()
 	
+	#white_stone.self_modulate.a = 0.5 if stone.dim else 1.0
+	#black_stone.self_modulate.a = 0.5 if stone.dim else 1.0
+	
+	self.visible = stone.in_view
+	self.modulate = Color.GRAY if stone.dim else Color.WHITE
+	
 	if stone.color == Stone.StoneColor.WHITE:
 		white_stone.show()
 		black_stone.hide()

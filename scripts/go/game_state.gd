@@ -170,12 +170,38 @@ static func from_sgf(node: SGF.SgfNode) -> GameState:
 				"MN":
 					assert(value is SgfTypes.SgfNumber)
 					s.move_number = value.value
+				"DD":
+					assert(value is SgfTypes.SgfPointList)
+					if value.points:
+						for i in value.points:
+							s.get_stone(i).dim = true
+					else:
+						for i in s.stones.values():
+							i.dim = false
+				"VW":
+					assert(value is SgfTypes.SgfPointList)
+					if value.points:
+						for x in s.board_size.x:
+							for y in s.board_size.y:
+								s.get_stone(Vector2i(x+1,y+1)).in_view = false
+						for i in value.points:
+							s.get_stone(i).in_view = true
+					else:
+						for i in s.stones.values():
+							i.in_view = true
 
 	for p in node.properties:
 		var value = node.properties[p]
 		match p:
 			"C":
 				s.comment = value.value
+			"AR":
+				assert(value is SgfTypes.SgfList)
+				for i in value.values:
+					assert(i is SgfTypes.SgfCompose)
+					assert(i.left_value is SgfTypes.SgfPoint)
+					assert(i.right_value is SgfTypes.SgfPoint)
+					s.arrows.append(Arrow.new(i.left_value.to_ivec(), i.right_value.to_ivec()))
 			"CR":
 				assert(value is SgfTypes.SgfPointList)
 				for i in value.points:
@@ -187,6 +213,13 @@ static func from_sgf(node: SGF.SgfNode) -> GameState:
 					assert(i.left_value is SgfTypes.SgfPoint)
 					assert(i.right_value is SgfTypes.SgfText)
 					s.get_stone(i.left_value.to_ivec()).label = i.right_value.value
+			"LN":
+				assert(value is SgfTypes.SgfList)
+				for i in value.values:
+					assert(i is SgfTypes.SgfCompose)
+					assert(i.left_value is SgfTypes.SgfPoint)
+					assert(i.right_value is SgfTypes.SgfPoint)
+					s.lines.append(Line.new(i.left_value.to_ivec(), i.right_value.to_ivec()))
 			"MA":
 				assert(value is SgfTypes.SgfPointList)
 				for i in value.points:

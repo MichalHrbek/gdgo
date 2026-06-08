@@ -56,12 +56,10 @@ script = ExtResource("2_jyhfs")
 [node name="HSeparator" type="HSeparator" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1722079066]
 layout_mode = 2
 
-[node name="Comment" type="Label" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=469330276]
+[node name="Comment" type="RichTextLabel" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1536925057]
 layout_mode = 2
-size_flags_horizontal = 3
 size_flags_vertical = 3
 vertical_alignment = 1
-autowrap_mode = 3
 script = ExtResource("3_jyhfs")
 
 [node name="HSeparator" type="HSeparator" parent="CanvasLayer/VBoxContainer" unique_id=209413034]

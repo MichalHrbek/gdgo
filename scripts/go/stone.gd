@@ -5,6 +5,7 @@ var color: StoneColor = StoneColor.NONE
 var territory: StoneColor = StoneColor.NONE
 var markup: StoneMarkup = StoneMarkup.NONE
 var dim: bool = false
+var in_view: bool = true
 var label: String = ""
 
 enum StoneColor {

@@ -2,6 +2,7 @@ class_name Board
 extends GridContainer
 
 var control_grid: Dictionary[Vector2i, Control] = {}
+var markup_nodes: Array[Node] = []
 var rows := 0
 
 const board_piece_scene: PackedScene = preload("res://scenes/board_piece.tscn")
@@ -17,11 +18,42 @@ func _board_label(text: String) -> Label:
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	return label
 
+func update_markup(state: GameState) -> void:
+	for i in markup_nodes:
+		i.queue_free()
+	markup_nodes = []
+	
+	for i in state.lines:
+		var line = Line2D.new()
+		line.add_point(i.start*64+Vector2i(32,32))
+		line.add_point(i.end*64+Vector2i(32,32))
+		line.default_color = Color.BLUE
+		line.width = 8
+		markup_nodes.append(line)
+		add_child(line)
+	
+	for i in state.arrows:
+		var arrow = Line2D.new()
+		var start: Vector2 = i.start*64+Vector2i(32,32)
+		var end: Vector2 = i.end*64+Vector2i(32,32)
+		var left_head = Vector2(-16,-16).rotated(start.angle_to_point(end))
+		var right_head = Vector2(-16,16).rotated(start.angle_to_point(end))
+		arrow.add_point(start)
+		arrow.add_point(end)
+		arrow.add_point(end+left_head)
+		arrow.add_point(end)
+		arrow.add_point(end+right_head)
+		arrow.default_color = Color.BLUE
+		arrow.width = 8
+		markup_nodes.append(arrow)
+		add_child(arrow)
+
 func goto(state: GameState) -> void:
 	for y in range(state.board_size.y):
 		for x in range(state.board_size.x):
 			var pos := Vector2i(x,y) + Vector2i.ONE
 			control_grid[pos].get_child(0).update(state.get_stone(pos), pos, state.board_size)
+	update_markup(state)
 
 func create(state: GameState) -> void:
 	for i in get_children():
@@ -53,6 +85,8 @@ func create(state: GameState) -> void:
 			piece.gui_input.connect(_on_piece_input_event.bind(pos))
 			
 			control_grid[pos].add_child(piece)
+	
+	update_markup(state)
 
 func _on_piece_input_event(event: InputEvent, pos: Vector2i) -> void:
 	if event is InputEventMouseButton:
