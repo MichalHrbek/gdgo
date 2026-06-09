@@ -5,8 +5,8 @@ const LOG_LEVEL := 1
 
 class SgfNode:
 	var parent: SgfNode
-	var children: Array[SgfNode]
-	var properties: Dictionary[String, Variant]
+	var children: Array[SgfNode] = []
+	var properties: Dictionary[String, Variant] = {}
 	
 	func _init(parent_: SgfNode) -> void:
 		parent = parent_
@@ -47,6 +47,41 @@ class SgfNode:
 				return parent.prev_crossroad()
 			return parent
 		return self
+	
+	const TEXT_REPR: Dictionary[String, String] = {
+		"BM": "Bad move",
+		"DO": "Doubtful move",
+		"IT": "Interesting move",
+		"TE": "Good move",
+		"DM": "Even",
+		"GB": "Good for Black",
+		"GW": "Good for White",
+		"HO": "Interesting/Decisive",
+		"V": "Value: ",
+		"N": "Name: ",
+	}
+	
+	func get_evaluation() -> String:
+		var s := ""
+		for i in TEXT_REPR:
+			if i in properties:
+				if properties[i] is SgfTypes.SgfDouble:
+					if properties[i].value == 2:
+						s += "Very "
+
+				s += TEXT_REPR[i]
+
+				if properties[i] is SgfTypes.SgfReal:
+					s += "%f" % properties[i].value
+				if properties[i] is SgfTypes.SgfText:
+					s += properties[i].value
+				
+				s += ", "
+		
+		if s:
+			s = s.substr(0, len(s)-2)
+		
+		return s
 
 class SgfFile:
 	const WHITESPACE = " \n\r\t"
