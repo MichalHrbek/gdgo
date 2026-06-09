@@ -41,6 +41,19 @@ func load_node(node: SGF.SgfNode):
 	current_state = GameState.from_sgf(node)
 	state_changed.emit(current_state, current_node)
 
+func remove_node(node: SGF.SgfNode):
+	if not node.parent:
+		return
+	
+	node.parent.children.remove_at(node.parent.children.find(node))
+	create_tree(root)
+	await get_tree().process_frame
+	load_node(node.parent)
+
+func remove_current_node():
+	if current_node:
+		remove_node(current_node)
+
 func walk(node: SGF.SgfNode, x: int, y: int, max_y: int, index: int) -> Vector2i:
 	by_id[index] = node
 	id_by[node] = index
