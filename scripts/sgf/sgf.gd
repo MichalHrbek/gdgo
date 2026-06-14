@@ -82,6 +82,24 @@ class SgfNode:
 			s = s.substr(0, len(s)-2)
 		
 		return s
+	
+	func serialize() -> String:
+		var s := ""
+		s += ";"
+		for i in properties:
+			s += i + str(properties[i])
+		
+		if children:
+			if len(children) == 1:
+				s += children[0].serialize()
+			else:
+				for i in children:
+					s += "(" + i.serialize() + ")"
+		
+		if parent:
+			return s
+		
+		return "(" + s + ")"
 
 class SgfFile:
 	const WHITESPACE = " \n\r\t"
