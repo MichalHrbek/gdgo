@@ -2,6 +2,8 @@ extends GridContainer
 
 signal state_changed(state: GameState, node: SGF.SgfNode)
 
+@export_enum("Direct:0", "Sharp:1", "Mixed:2") var branch_type: int = 2
+
 var root: SGF.SgfNode
 var current_node: SGF.SgfNode
 var current_state: GameState
@@ -42,6 +44,7 @@ func load_node(node: SGF.SgfNode):
 	state_changed.emit(current_state, current_node)
 
 func remove_node(node: SGF.SgfNode):
+	var parent := node.parent
 	if not node.parent:
 		return
 	
@@ -90,7 +93,15 @@ func vis() -> void:
 				var node = by_pos[p]
 				var control: TreeNodeUI = node_scene.instantiate()
 				if node.parent:
-					sort_children.connect(func(): control.line.points = PackedVector2Array([Vector2(32,32), _vis_node[node.parent].position-_vis_node[node].position+Vector2(32,32)]))
+					if branch_type == 0:
+						control.line.points = PackedVector2Array([Vector2(32,32), Vector2(pos_by[node.parent]-pos_by[node])*Vector2(64,64)+Vector2(32,32)])
+					elif branch_type == 1:
+						control.line.points = PackedVector2Array([Vector2(32,32), Vector2((pos_by[node.parent].x-pos_by[node].x)*64+32, 32), Vector2(pos_by[node.parent]-pos_by[node])*Vector2(64,64)+Vector2(32,32)])
+					elif branch_type == 2:
+						if pos_by[node.parent].y == pos_by[node].y:
+							control.line.points = PackedVector2Array([Vector2(32,32), Vector2(pos_by[node.parent]-pos_by[node])*Vector2(64,64)+Vector2(32,32)])
+						else:
+							control.line.points = PackedVector2Array([Vector2(32,32), Vector2(-32,-32), Vector2(pos_by[node.parent]-pos_by[node])*Vector2(64,64)+Vector2(32,32)])
 				_vis_node[node] = control
 				control.label.text = str(id_by[by_pos[p]])
 				control.gui_input.connect(_on_node_clicked.bind(id_by[by_pos[p]]))
