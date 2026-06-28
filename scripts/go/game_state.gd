@@ -21,6 +21,29 @@ var lines: Array[Line] = []
 
 var associated_node: SGF.SgfNode = null
 
+func compare(other: GameState) -> bool:
+	if board_size != other.board_size or to_play != other.to_play or comment != other.comment or move_number != other.move_number or black_captured != other.black_captured or white_captured != other.white_captured or passed != other.passed:
+		return false
+	
+	if len(lines) != len(other.lines) or len(arrows) != len(other.arrows):
+		return false
+	
+	for i in len(lines):
+		if not lines[i].compare(other.lines[i]):
+			return false
+	
+	for i in len(arrows):
+		if not arrows[i].compare(other.arrows[i]):
+			return false
+	
+	for x in board_size.x:
+		for y in board_size.y:
+			var pos := Vector2i(x+1,y+1)
+			if not get_stone(pos).compare(other.get_stone(pos)):
+				return false
+	
+	return true
+
 func get_stone(pos: Vector2i) -> Stone:
 	if not is_valid_position(pos):
 		return null

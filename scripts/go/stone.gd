@@ -23,3 +23,6 @@ enum StoneMarkup {
 	SQUARE,
 	TRIANGLE,
 }
+
+func compare(other: Stone) -> bool:
+	return color == other.color and territory == other.territory and markup == other.markup and dim == other.dim and in_view == other.in_view and label == other.label

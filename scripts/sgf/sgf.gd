@@ -100,6 +100,13 @@ class SgfNode:
 			return s
 		
 		return "(" + s + ")"
+	
+	func remove_from_tree():
+		if not parent:
+			return
+		
+		parent.children.remove_at(parent.children.find(self))
+		parent = null
 
 class SgfFile:
 	const WHITESPACE = " \n\r\t"
