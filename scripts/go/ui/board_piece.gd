@@ -28,7 +28,6 @@ const STARS = [
 	Vector2i(13, 7),
 	Vector2i(13, 10),
 	Vector2i(9, 3),
-	Vector2i(9, 5),
 	Vector2i(9, 7),
 ]
 
@@ -52,15 +51,10 @@ func hide_potential():
 	white_stone.hide()
 
 func update(stone: Stone, pos: Vector2i, board_size: Vector2i) -> void:
-	grid_top.show()
-	grid_bottom.show()
-	grid_left.show()
-	grid_right.show()
-	
-	if pos.x == 1: grid_left.hide()
-	if pos.y == 1: grid_top.hide()
-	if pos.x == board_size.x: grid_right.hide()
-	if pos.y == board_size.y: grid_bottom.hide()
+	grid_left.visible = pos.x != 1
+	grid_top.visible = pos.y != 1
+	grid_right.visible = pos.x != board_size.x
+	grid_bottom.visible = pos.y != board_size.y
 	
 	grid_star.visible = board_size.x == board_size.y and Vector2i(board_size.x, pos.x) in STARS and Vector2i(board_size.x, pos.y) in STARS
 	
