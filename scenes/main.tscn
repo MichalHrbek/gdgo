@@ -50,37 +50,37 @@ layout_mode = 2
 [node name="GameState" type="Label" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=181128060]
 layout_mode = 2
 text = "Load game"
-autowrap_mode = 3
+autowrap_mode = 1
 script = ExtResource("2_jyhfs")
 
 [node name="HSeparator" type="HSeparator" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1722079066]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=337708708]
+[node name="HFlowContainer" type="HFlowContainer" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=532092338]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/h_separation = 8
 
-[node name="Button" type="Button" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1887788877]
+[node name="Button" type="Button" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HFlowContainer" unique_id=1887788877]
 layout_mode = 2
 focus_mode = 1
 text = "Pass"
 
-[node name="Button2" type="Button" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1088284163]
+[node name="Button2" type="Button" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HFlowContainer" unique_id=1088284163]
 layout_mode = 2
 focus_mode = 1
 text = "Resign"
 
-[node name="Button3" type="Button" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1145503603]
+[node name="Button3" type="Button" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HFlowContainer" unique_id=1145503603]
 layout_mode = 2
 focus_mode = 1
 text = "Export"
 
-[node name="Button4" type="Button" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=2044835295]
+[node name="Button4" type="Button" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HFlowContainer" unique_id=2044835295]
 layout_mode = 2
 focus_mode = 1
 text = "Edit node"
 
-[node name="Button5" type="Button" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1315996745]
+[node name="Button5" type="Button" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HFlowContainer" unique_id=1315996745]
 layout_mode = 2
 focus_mode = 1
 text = "Remove node"
@@ -114,8 +114,8 @@ theme_override_constants/v_separation = 0
 script = ExtResource("3_tefeu")
 
 [connection signal="tree_edited" from="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer/Control/GameBoard" to="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" method="_on_tree_edited"]
-[connection signal="pressed" from="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/Button" to="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer/Control/GameBoard" method="make_move" binds= [Vector2i(0, 0)]]
-[connection signal="pressed" from="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/Button5" to="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" method="remove_current_node"]
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HFlowContainer/Button" to="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer/Control/GameBoard" method="make_move" binds= [Vector2i(0, 0)]]
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HFlowContainer/Button5" to="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" method="remove_current_node"]
 [connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer/Control/GameBoard" method="_on_state_changed"]
 [connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/GameState" method="_on_state_changed"]
 [connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/Comment" method="_on_state_changed"]
