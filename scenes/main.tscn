@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://hfk0hqouwuei" path="res://scripts/go/ui/game_state_ui.gd" id="2_jyhfs"]
 [ext_resource type="Script" uid="uid://d4bwd2p4ppo3l" path="res://scripts/go/ui/board.gd" id="2_tbgi4"]
 [ext_resource type="Script" uid="uid://dm8721x0payo4" path="res://scripts/go/ui/comment_box.gd" id="3_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://do4lb5meosjl" path="res://scenes/player_info.tscn" id="3_tbgi4"]
 [ext_resource type="Script" uid="uid://cftxeap8dnx5r" path="res://scripts/go/ui/sgf_tree_vis.gd" id="3_tefeu"]
 
 [node name="Node2D" type="Node2D" unique_id=1049589408]
@@ -54,6 +55,26 @@ autowrap_mode = 1
 script = ExtResource("2_jyhfs")
 
 [node name="HSeparator" type="HSeparator" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1722079066]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1102444606]
+layout_mode = 2
+alignment = 1
+
+[node name="WhitePlayerInfo" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=946200347 instance=ExtResource("3_tbgi4")]
+layout_mode = 2
+size_flags_horizontal = 3
+player_color = 1
+
+[node name="VSeparator" type="VSeparator" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1836969736]
+layout_mode = 2
+
+[node name="BlackPlayerInfo" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=365235085 instance=ExtResource("3_tbgi4")]
+layout_mode = 2
+size_flags_horizontal = 3
+player_color = 2
+
+[node name="HSeparator3" type="HSeparator" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1794965201]
 layout_mode = 2
 
 [node name="HFlowContainer" type="HFlowContainer" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=532092338]
@@ -118,4 +139,6 @@ script = ExtResource("3_tefeu")
 [connection signal="pressed" from="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HFlowContainer/Button5" to="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" method="remove_current_node"]
 [connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer/Control/GameBoard" method="_on_state_changed"]
 [connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/GameState" method="_on_state_changed"]
+[connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/WhitePlayerInfo" method="_on_state_changed"]
+[connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/BlackPlayerInfo" method="_on_state_changed"]
 [connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/Comment" method="_on_state_changed"]

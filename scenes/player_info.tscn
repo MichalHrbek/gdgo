@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://do4lb5meosjl"]
+
+[ext_resource type="Texture2D" uid="uid://bjahbwc55i31x" path="res://assets/stones/stone.svg" id="1_oojiu"]
+[ext_resource type="Script" uid="uid://br254id0cwan1" path="res://scripts/go/ui/player_info_ui.gd" id="1_yl0j5"]
+
+[node name="PlayerInfo" type="HFlowContainer" unique_id=946200347 node_paths=PackedStringArray("color_rect", "name_label", "rank_label", "team_label", "time_label", "by_label", "prisoners_label")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 16
+script = ExtResource("1_yl0j5")
+color_rect = NodePath("Color")
+name_label = NodePath("NameLabel")
+rank_label = NodePath("RankLabel")
+team_label = NodePath("TeamLabel")
+time_label = NodePath("TimeLabel")
+by_label = NodePath("BYLabel")
+prisoners_label = NodePath("PrisonersLabel")
+
+[node name="Color" type="TextureRect" parent="." unique_id=1044135059]
+layout_mode = 2
+texture = ExtResource("1_oojiu")
+expand_mode = 2
+
+[node name="NameLabel" type="Label" parent="." unique_id=1699923278]
+layout_mode = 2
+text = "Name: "
+
+[node name="RankLabel" type="Label" parent="." unique_id=1607855907]
+layout_mode = 2
+text = "Rank: "
+
+[node name="TeamLabel" type="Label" parent="." unique_id=1741149274]
+layout_mode = 2
+text = "Team: "
+
+[node name="TimeLabel" type="Label" parent="." unique_id=194182664]
+layout_mode = 2
+text = "Time left: "
+
+[node name="BYLabel" type="Label" parent="." unique_id=704440508]
+layout_mode = 2
+text = "Byo-yomi: "
+
+[node name="PrisonersLabel" type="Label" parent="." unique_id=2041308795]
+layout_mode = 2
+text = "Enemy prisoners: "

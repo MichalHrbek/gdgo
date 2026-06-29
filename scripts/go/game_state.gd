@@ -12,9 +12,10 @@ var to_play: Stone.StoneColor = BLACK
 var comment := ""
 var move_number := 0
 
-var black_captured := 0 # Black stones that have been captured
-var white_captured := 0 # White stones that have been captured
-var passed = Stone.StoneColor.NONE
+var white_player := Player.new(WHITE)
+var black_player := Player.new(BLACK)
+
+var passed := NONE
 
 var arrows: Array[Arrow] = []
 var lines: Array[Line] = []
@@ -22,7 +23,10 @@ var lines: Array[Line] = []
 var associated_node: SGF.SgfNode = null
 
 func compare(other: GameState) -> bool:
-	if board_size != other.board_size or to_play != other.to_play or comment != other.comment or move_number != other.move_number or black_captured != other.black_captured or white_captured != other.white_captured or passed != other.passed:
+	if board_size != other.board_size or to_play != other.to_play or comment != other.comment or move_number != other.move_number or passed != other.passed:
+		return false
+	
+	if (not white_player.compare(other.white_player)) or (not black_player.compare(other.black_player)):
 		return false
 	
 	if len(lines) != len(other.lines) or len(arrows) != len(other.arrows):
@@ -91,7 +95,7 @@ func flib(source: Vector2i) -> Array[Array]:
 			continue
 		var c := get_stone(s).color
 		if c != source_color:
-			if c == Stone.StoneColor.NONE:
+			if c == NONE:
 				if s not in liberties:
 					liberties.append(s)
 			continue
@@ -110,13 +114,13 @@ func clear_if_dead(source: Vector2i) -> int:
 	var liberties = result[1]
 	if not liberties:
 		for i in group:
-			get_stone(i).color = Stone.StoneColor.NONE
+			get_stone(i).color = NONE
 		return len(group)
 	return 0
 
 func record_captured(color: Stone.StoneColor, ammount: int) -> void:
-	if color == Stone.StoneColor.WHITE: white_captured += ammount
-	elif color == Stone.StoneColor.BLACK: black_captured += ammount
+	if color == WHITE: black_player.enemy_prisoners += ammount
+	elif color == BLACK: white_player.enemy_prisoners += ammount
 
 func after_move_check(move: Vector2i):
 	var c := get_stone(move).color
@@ -124,7 +128,7 @@ func after_move_check(move: Vector2i):
 		var s := get_stone(i)
 		if not s:
 			continue
-		if s.color not in [Stone.StoneColor.NONE, c]:
+		if s.color not in [NONE, c]:
 			record_captured(s.color, clear_if_dead(i))
 	
 	record_captured(c, clear_if_dead(move))
@@ -233,6 +237,36 @@ static func from_sgf(node: SGF.SgfNode) -> GameState:
 					else:
 						for i in s.stones.values():
 							i.in_view = true
+				"PB":
+					assert(value is SgfTypes.SgfText)
+					s.black_player.name = value.value
+				"PW":
+					assert(value is SgfTypes.SgfText)
+					s.white_player.name = value.value
+				"BR":
+					assert(value is SgfTypes.SgfText)
+					s.black_player.rank = value.value
+				"WR":
+					assert(value is SgfTypes.SgfText)
+					s.white_player.rank = value.value
+				"BT":
+					assert(value is SgfTypes.SgfText)
+					s.black_player.team = value.value
+				"WT":
+					assert(value is SgfTypes.SgfText)
+					s.white_player.team = value.value
+				"WL":
+					assert(value is SgfTypes.SgfReal)
+					s.black_player.time_left = value.value
+				"BL":
+					assert(value is SgfTypes.SgfReal)
+					s.white_player.time_left = value.value
+				"OB":
+					assert(value is SgfTypes.SgfNumber)
+					s.black_player.moves_left = value.value
+				"OW":
+					assert(value is SgfTypes.SgfNumber)
+					s.white_player.moves_left = value.value
 
 	for p in node.properties:
 		var value = node.properties[p]
