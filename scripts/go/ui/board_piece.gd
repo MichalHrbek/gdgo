@@ -16,8 +16,21 @@ extends Control
 @export var grid_bottom: Control
 @export var grid_left: Control
 @export var grid_right: Control
+@export var grid_star: Control
 
 var current_state: Stone = null
+
+const STARS = [
+	Vector2i(19, 4),
+	Vector2i(19, 10),
+	Vector2i(19, 16),
+	Vector2i(13, 4),
+	Vector2i(13, 7),
+	Vector2i(13, 10),
+	Vector2i(9, 3),
+	Vector2i(9, 5),
+	Vector2i(9, 7),
+]
 
 func show_potenial(color: Stone.StoneColor) -> void:
 	if current_state.color != Stone.StoneColor.NONE:
@@ -38,7 +51,7 @@ func hide_potential():
 	black_stone.hide()
 	white_stone.hide()
 
-func update(stone: Stone, pos: Vector2, board_size: Vector2i) -> void:
+func update(stone: Stone, pos: Vector2i, board_size: Vector2i) -> void:
 	grid_top.show()
 	grid_bottom.show()
 	grid_left.show()
@@ -48,6 +61,8 @@ func update(stone: Stone, pos: Vector2, board_size: Vector2i) -> void:
 	if pos.y == 1: grid_top.hide()
 	if pos.x == board_size.x: grid_right.hide()
 	if pos.y == board_size.y: grid_bottom.hide()
+	
+	grid_star.visible = board_size.x == board_size.y and Vector2i(board_size.x, pos.x) in STARS and Vector2i(board_size.x, pos.y) in STARS
 	
 	self.visible = stone.in_view
 	self.modulate = Color.GRAY if stone.dim else Color.WHITE

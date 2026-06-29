@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://b1fjj6wg1am83" path="res://assets/grid/grid_top.svg" id="3_1f78n"]
 [ext_resource type="Texture2D" uid="uid://dtvk1dw3s4iqo" path="res://assets/grid/grid_left.svg" id="4_ul1dh"]
 [ext_resource type="Texture2D" uid="uid://bawuutc5yl8jr" path="res://assets/grid/grid_right.svg" id="5_675k6"]
+[ext_resource type="Texture2D" uid="uid://dfundv0sq6vs7" path="res://assets/grid/star.svg" id="6_21166"]
 [ext_resource type="Texture2D" uid="uid://bjahbwc55i31x" path="res://assets/stones/stone.svg" id="6_oenme"]
 [ext_resource type="Texture2D" uid="uid://n4eddklu5mg" path="res://assets/markup_symbols/circle.svg" id="8_0jmdt"]
 [ext_resource type="Texture2D" uid="uid://dl4m571s0sfqn" path="res://assets/markup_symbols/cross.svg" id="9_21166"]
@@ -15,7 +16,7 @@
 [sub_resource type="LabelSettings" id="LabelSettings_0jmdt"]
 font_color = Color(9.62615e-08, 0.8833101, 0.48493898, 1)
 
-[node name="BoardPiece" type="Control" unique_id=509857418 node_paths=PackedStringArray("black_stone", "white_stone", "markup_circle", "markup_cross", "markup_square", "markup_selected", "markup_triangle", "markup_territory", "markup_label", "grid_top", "grid_bottom", "grid_left", "grid_right")]
+[node name="BoardPiece" type="Control" unique_id=509857418 node_paths=PackedStringArray("black_stone", "white_stone", "markup_circle", "markup_cross", "markup_square", "markup_selected", "markup_triangle", "markup_territory", "markup_label", "grid_top", "grid_bottom", "grid_left", "grid_right", "grid_star")]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 64.0
@@ -34,6 +35,7 @@ grid_top = NodePath("GridTop")
 grid_bottom = NodePath("GridBottom")
 grid_left = NodePath("GridLeft")
 grid_right = NodePath("GridRight")
+grid_star = NodePath("GridStar")
 
 [node name="Wood" type="ColorRect" parent="." unique_id=1202563979]
 layout_mode = 0
@@ -68,6 +70,14 @@ layout_mode = 0
 offset_right = 64.0
 offset_bottom = 64.0
 texture = ExtResource("5_675k6")
+
+[node name="GridStar" type="TextureRect" parent="." unique_id=1484804509]
+self_modulate = Color(0, 0, 0, 1)
+texture_filter = 2
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 64.0
+texture = ExtResource("6_21166")
 
 [node name="StoneWhite" type="TextureRect" parent="." unique_id=1290633242]
 visible = false
