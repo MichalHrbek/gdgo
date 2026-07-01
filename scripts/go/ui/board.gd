@@ -1,9 +1,12 @@
 class_name Board
-extends GridContainer
+extends Control
+
+@export var dragger: Control
 
 var control_grid: Dictionary[Vector2i, Control] = {}
 var markup_nodes: Array[Node] = []
 var rows := 0
+var columns := 0
 
 const board_piece_scene: PackedScene = preload("res://scenes/board_piece.tscn")
 var last_viewport_size: Vector2
@@ -60,8 +63,10 @@ func goto(state: GameState) -> void:
 
 func create(state: GameState) -> void:
 	current_state = state
-	for i in get_children():
+	for i in control_grid.values():
 		i.queue_free()
+	
+	control_grid.clear()
 	
 	columns = state.board_size.x+1
 	rows = state.board_size.y+1
@@ -73,6 +78,7 @@ func create(state: GameState) -> void:
 			c.custom_minimum_size = Vector2(64, 64)
 			control_grid[pos] = c
 			add_child(c)
+			c.position = pos*64
 	
 	for i in range(state.board_size.y):
 		control_grid[Vector2i(0,i+1)].add_child(_board_label(str(i+1)))
@@ -93,6 +99,9 @@ func create(state: GameState) -> void:
 			control_grid[pos].add_child(piece)
 	
 	update_markup(state)
+	
+	dragger.position = Vector2(columns*64, rows*64)
+	size = Vector2(columns*64, rows*64)+dragger.size
 
 func _on_piece_input_event(event: InputEvent, pos: Vector2i) -> void:
 	if event is InputEventMouseButton:
@@ -101,8 +110,11 @@ func _on_piece_input_event(event: InputEvent, pos: Vector2i) -> void:
 				if current_state.get_stone(pos).color == Stone.StoneColor.NONE:
 					make_move(pos)
 
+
+var y_prop := 0.75
+var x_prop := 0.8
 func ensure_size() -> void:
-	var fit_scale = min(get_viewport_rect().size.y*0.75/(64.0*rows), get_viewport_rect().size.x*0.8/(64.0*columns))
+	var fit_scale = min(get_viewport_rect().size.y*y_prop/(64.0*rows), get_viewport_rect().size.x*x_prop/(64.0*columns))
 	scale = Vector2(fit_scale,fit_scale)
 	get_parent().custom_minimum_size = size*scale
 
@@ -123,4 +135,17 @@ func _ready() -> void:
 	resized.connect(ensure_size)
 	get_viewport().size_changed.connect(ensure_size)
 	ensure_size()
+	dragger.gui_input.connect(_on_dragger_input)
+
+var dragging := false
+func _on_dragger_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		if event.button_index == MouseButton.MOUSE_BUTTON_LEFT:
+			dragging = event.pressed
 	
+	if dragging:
+		if event is InputEventMouseMotion:
+			var goal_size: Vector2 = event.global_position-global_position
+			x_prop = clampf(goal_size.x/get_viewport_rect().size.x, 0.25, 0.9)
+			y_prop = clampf(goal_size.y/get_viewport_rect().size.y, 0.25, 0.9)
+			ensure_size()

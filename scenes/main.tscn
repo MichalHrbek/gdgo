@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://hfk0hqouwuei" path="res://scripts/go/ui/game_state_ui.gd" id="2_jyhfs"]
 [ext_resource type="Script" uid="uid://d4bwd2p4ppo3l" path="res://scripts/go/ui/board.gd" id="2_tbgi4"]
+[ext_resource type="Texture2D" uid="uid://cwej1vhu75qwf" path="res://assets/ui/scale.svg" id="2_tefeu"]
 [ext_resource type="Script" uid="uid://dm8721x0payo4" path="res://scripts/go/ui/comment_box.gd" id="3_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://do4lb5meosjl" path="res://scenes/player_info.tscn" id="3_tbgi4"]
 [ext_resource type="Script" uid="uid://cftxeap8dnx5r" path="res://scripts/go/ui/sgf_tree_vis.gd" id="3_tefeu"]
@@ -30,11 +31,21 @@ theme_override_constants/margin_bottom = 16
 custom_minimum_size = Vector2(640, 640)
 layout_mode = 2
 
-[node name="GameBoard" type="GridContainer" parent="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer/Control" unique_id=1065108175]
-layout_mode = 0
-theme_override_constants/h_separation = 0
-theme_override_constants/v_separation = 0
+[node name="GameBoard" type="Control" parent="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer/Control" unique_id=1458735982 node_paths=PackedStringArray("dragger")]
+anchors_preset = 0
 script = ExtResource("2_tbgi4")
+dragger = NodePath("Dragger")
+
+[node name="Dragger" type="TextureRect" parent="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer/Control/GameBoard" unique_id=1206509469]
+z_index = 4
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 48.0
+mouse_filter = 0
+texture = ExtResource("2_tefeu")
+expand_mode = 1
+stretch_mode = 3
+flip_h = true
 
 [node name="VSeparator" type="VSeparator" parent="CanvasLayer/VBoxContainer/HBoxContainer" unique_id=1198823738]
 layout_mode = 2
@@ -135,10 +146,10 @@ theme_override_constants/v_separation = 0
 script = ExtResource("3_tefeu")
 
 [connection signal="tree_edited" from="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer/Control/GameBoard" to="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" method="_on_tree_edited"]
-[connection signal="pressed" from="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HFlowContainer/Button" to="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer/Control/GameBoard" method="make_move" binds= [Vector2i(0, 0)]]
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HFlowContainer/Button" to="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer/Control/GameBoard" method="make_move"]
 [connection signal="pressed" from="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HFlowContainer/Button5" to="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" method="remove_current_node"]
-[connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer/Control/GameBoard" method="_on_state_changed"]
 [connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/GameState" method="_on_state_changed"]
 [connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/WhitePlayerInfo" method="_on_state_changed"]
 [connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/BlackPlayerInfo" method="_on_state_changed"]
 [connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/Comment" method="_on_state_changed"]
+[connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer/Control/GameBoard" method="_on_state_changed"]
