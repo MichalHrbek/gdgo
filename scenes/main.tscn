@@ -146,7 +146,7 @@ theme_override_constants/v_separation = 0
 script = ExtResource("3_tefeu")
 
 [connection signal="tree_edited" from="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer/Control/GameBoard" to="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" method="_on_tree_edited"]
-[connection signal="pressed" from="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HFlowContainer/Button" to="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer/Control/GameBoard" method="make_move"]
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HFlowContainer/Button" to="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer/Control/GameBoard" method="make_move" binds= [Vector2i(0, 0)]]
 [connection signal="pressed" from="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HFlowContainer/Button5" to="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" method="remove_current_node"]
 [connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/GameState" method="_on_state_changed"]
 [connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/WhitePlayerInfo" method="_on_state_changed"]
