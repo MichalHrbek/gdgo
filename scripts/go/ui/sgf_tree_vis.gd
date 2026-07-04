@@ -1,3 +1,4 @@
+class_name SgfTreeVis
 extends GridContainer
 
 signal state_changed(state: GameState, node: SGF.SgfNode)
@@ -14,15 +15,6 @@ var id_by: Dictionary[SGF.SgfNode, int] = {}
 var pos_by: Dictionary[SGF.SgfNode, Vector2i] = {}
 
 const node_scene: PackedScene = preload("res://scenes/tree_node.tscn")
-
-func _ready() -> void:
-	#var s := SGF.SgfFile.new("(;FF[4]GM[1]SZ[19];B[aa];W[bb];B[cc];W[dd];B[ad];W[bd])")
-	var s := SGF.SgfFile.new(FileAccess.open("res://examples/ff4_ex.sgf.txt", FileAccess.READ).get_as_text())
-	#var s := SGF.SgfFile.new(FileAccess.open("res://examples/99.sgf.txt", FileAccess.READ).get_as_text())
-	#var s := SGF.SgfFile.new(FileAccess.open("res://examples/tree.sgf.txt", FileAccess.READ).get_as_text())
-	#var s := SGF.SgfFile.new(FileAccess.open("res://examples/print1.sgf.txt", FileAccess.READ).get_as_text())
-	s.parse()
-	create_tree(s.roots[0])
 
 func create_tree(new_root: SGF.SgfNode, load_root: bool = true) -> void:
 	root = new_root
@@ -75,9 +67,6 @@ var _vis_node: Dictionary[SGF.SgfNode, TreeNodeUI] = {}
 func vis() -> void:
 	for i in get_children():
 		i.queue_free()
-	
-	for i in sort_children.get_connections():
-		sort_children.disconnect(i["callable"])
 	
 	var height := 0
 	var width := 0

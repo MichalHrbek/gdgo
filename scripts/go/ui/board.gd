@@ -111,21 +111,28 @@ func _on_piece_input_event(event: InputEvent, pos: Vector2i) -> void:
 					make_move(pos)
 
 
-var y_prop := 0.75
+var y_prop := 0.7
 var x_prop := 0.8
 func ensure_size() -> void:
-	var fit_scale = min(get_viewport_rect().size.y*y_prop/(64.0*rows), get_viewport_rect().size.x*x_prop/(64.0*columns))
-	scale = Vector2(fit_scale,fit_scale)
-	get_parent().custom_minimum_size = size*scale
+	if columns and rows:
+		show()
+		var fit_scale = min(get_viewport_rect().size.y*y_prop/(64.0*rows), get_viewport_rect().size.x*x_prop/(64.0*columns))
+		scale = Vector2(fit_scale,fit_scale)
+		get_parent().custom_minimum_size = size*scale
+	else:
+		get_parent().custom_minimum_size = Vector2.ZERO
+		hide()
 
 func make_move(pos: Vector2i) -> void:
+	if not current_state:
+		return
 	var new_state = current_state.make_move(pos)
 	if new_state.associated_node:
 		tree_edited.emit(new_state.associated_node)
 	goto(new_state)
 
 func _on_state_changed(state: GameState, _node: SGF.SgfNode) -> void:
-	if control_grid:
+	if control_grid and current_state.board_size == state.board_size:
 		goto(state)
 	else:
 		create(state)

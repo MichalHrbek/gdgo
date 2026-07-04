@@ -112,6 +112,7 @@ class SgfFile:
 	const WHITESPACE = " \n\r\t"
 	const SPECIAL = "();"
 	
+	
 	var text: String
 	var loc: int = 0
 	
@@ -120,6 +121,10 @@ class SgfFile:
 	
 	func _init(text_: String) -> void:
 		text = text_
+		parse()
+	
+	static func create_empty(size: Vector2i) -> SgfFile:
+		return SgfFile.new("(;FF[4] SZ[%s])" % (str(size.x) if size.x == size.y else "%d:%d" % [size.x, size.y]))
 	
 	func peek() -> String:
 		return text[loc]
