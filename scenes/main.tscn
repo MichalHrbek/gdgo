@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://hfk0hqouwuei" path="res://scripts/go/ui/game_state_ui.gd" id="2_jyhfs"]
 [ext_resource type="Script" uid="uid://d4bwd2p4ppo3l" path="res://scripts/go/ui/board.gd" id="2_tbgi4"]
 [ext_resource type="Texture2D" uid="uid://cwej1vhu75qwf" path="res://assets/ui/scale.svg" id="2_tefeu"]
+[ext_resource type="Script" uid="uid://c5ae88nlor0pd" path="res://scripts/go/ui/game_props_popup.gd" id="2_tipki"]
 [ext_resource type="Script" uid="uid://dm8721x0payo4" path="res://scripts/go/ui/comment_box.gd" id="3_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://do4lb5meosjl" path="res://scenes/player_info.tscn" id="3_tbgi4"]
 [ext_resource type="Script" uid="uid://cftxeap8dnx5r" path="res://scripts/go/ui/sgf_tree_vis.gd" id="3_tefeu"]
@@ -45,11 +46,15 @@ layout_mode = 2
 [node name="File" type="MenuButton" parent="CanvasLayer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer" unique_id=1550975433 node_paths=PackedStringArray("tree", "root_index_label")]
 layout_mode = 2
 text = "File"
-item_count = 2
+item_count = 4
 popup/item_0/text = "Open"
 popup/item_0/id = 0
 popup/item_1/text = "Close"
 popup/item_1/id = 1
+popup/item_2/text = "New tree"
+popup/item_2/id = 2
+popup/item_3/text = "New file"
+popup/item_3/id = 3
 script = ExtResource("1_o6xl0")
 tree = NodePath("../../../../ScrollContainer/SgfTreeVis")
 root_index_label = NodePath("../Label")
@@ -61,6 +66,56 @@ position = Vector2i(0, 36)
 file_mode = 0
 access = 2
 use_native_dialog = true
+
+[node name="GamePropsPopup" type="Popup" parent="CanvasLayer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/File" unique_id=444496355]
+oversampling_override = 1.0
+title = "New tree"
+initial_position = 1
+size = Vector2i(275, 90)
+unresizable = false
+borderless = false
+always_on_top = true
+script = ExtResource("2_tipki")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/File/GamePropsPopup" unique_id=1744000665]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="GridContainer" type="VBoxContainer" parent="CanvasLayer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/File/GamePropsPopup/MarginContainer" unique_id=1597178040]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/File/GamePropsPopup/MarginContainer/GridContainer" unique_id=690845973]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/File/GamePropsPopup/MarginContainer/GridContainer/HBoxContainer" unique_id=15116934]
+layout_mode = 2
+text = "Board size:"
+
+[node name="Width" type="SpinBox" parent="CanvasLayer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/File/GamePropsPopup/MarginContainer/GridContainer/HBoxContainer" unique_id=642231884]
+layout_mode = 2
+min_value = 1.0
+value = 19.0
+rounded = true
+prefix = "W"
+
+[node name="Height" type="SpinBox" parent="CanvasLayer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/File/GamePropsPopup/MarginContainer/GridContainer/HBoxContainer" unique_id=1163253568]
+layout_mode = 2
+min_value = 1.0
+value = 19.0
+rounded = true
+prefix = "H"
+
+[node name="Button" type="Button" parent="CanvasLayer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/File/GamePropsPopup/MarginContainer/GridContainer" unique_id=1977659996]
+layout_mode = 2
+text = "Create"
 
 [node name="Help" type="MenuButton" parent="CanvasLayer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer" unique_id=175063602]
 layout_mode = 2
@@ -114,76 +169,81 @@ flip_h = true
 layout_mode = 2
 theme_override_constants/separation = 32
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/VBoxContainer/HBoxContainer" unique_id=769405261]
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/VBoxContainer/HBoxContainer" unique_id=552850390]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_right = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2" unique_id=769405261]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Control" type="Control" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1672609902]
+[node name="Control" type="Control" parent="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer" unique_id=1672609902]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 
-[node name="GameState" type="Label" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=181128060]
+[node name="GameState" type="Label" parent="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer" unique_id=181128060]
 layout_mode = 2
 text = "Load game"
 autowrap_mode = 1
 script = ExtResource("2_jyhfs")
 
-[node name="HSeparator" type="HSeparator" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1722079066]
+[node name="HSeparator" type="HSeparator" parent="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer" unique_id=1722079066]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1102444606]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer" unique_id=1102444606]
 layout_mode = 2
 alignment = 1
 
-[node name="WhitePlayerInfo" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=946200347 instance=ExtResource("3_tbgi4")]
+[node name="WhitePlayerInfo" parent="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer/HBoxContainer" unique_id=946200347 instance=ExtResource("3_tbgi4")]
 layout_mode = 2
 size_flags_horizontal = 3
 player_color = 1
 
-[node name="VSeparator" type="VSeparator" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1836969736]
+[node name="VSeparator" type="VSeparator" parent="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer/HBoxContainer" unique_id=1836969736]
 layout_mode = 2
 
-[node name="BlackPlayerInfo" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=365235085 instance=ExtResource("3_tbgi4")]
+[node name="BlackPlayerInfo" parent="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer/HBoxContainer" unique_id=365235085 instance=ExtResource("3_tbgi4")]
 layout_mode = 2
 size_flags_horizontal = 3
 player_color = 2
 
-[node name="HSeparator3" type="HSeparator" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1794965201]
+[node name="HSeparator3" type="HSeparator" parent="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer" unique_id=1794965201]
 layout_mode = 2
 
-[node name="HFlowContainer" type="HFlowContainer" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=532092338]
+[node name="HFlowContainer" type="HFlowContainer" parent="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer" unique_id=532092338]
 layout_mode = 2
 theme_override_constants/h_separation = 8
 
-[node name="Button" type="Button" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HFlowContainer" unique_id=1887788877]
+[node name="Button" type="Button" parent="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer/HFlowContainer" unique_id=1887788877]
 layout_mode = 2
 focus_mode = 1
 text = "Pass"
 
-[node name="Button2" type="Button" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HFlowContainer" unique_id=1088284163]
+[node name="Button2" type="Button" parent="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer/HFlowContainer" unique_id=1088284163]
 layout_mode = 2
 focus_mode = 1
 text = "Resign"
 
-[node name="Button3" type="Button" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HFlowContainer" unique_id=1145503603]
+[node name="Button3" type="Button" parent="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer/HFlowContainer" unique_id=1145503603]
 layout_mode = 2
 focus_mode = 1
 text = "Export"
 
-[node name="Button4" type="Button" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HFlowContainer" unique_id=2044835295]
+[node name="Button4" type="Button" parent="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer/HFlowContainer" unique_id=2044835295]
 layout_mode = 2
 focus_mode = 1
 text = "Edit node"
 
-[node name="Button5" type="Button" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HFlowContainer" unique_id=1315996745]
+[node name="Button5" type="Button" parent="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer/HFlowContainer" unique_id=1315996745]
 layout_mode = 2
 focus_mode = 1
 text = "Remove node"
 
-[node name="HSeparator2" type="HSeparator" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1380624165]
+[node name="HSeparator2" type="HSeparator" parent="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer" unique_id=1380624165]
 layout_mode = 2
 
-[node name="Comment" type="RichTextLabel" parent="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer" unique_id=1536925057]
+[node name="Comment" type="RichTextLabel" parent="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer" unique_id=1536925057]
 layout_mode = 2
 size_flags_vertical = 3
 vertical_alignment = 1
@@ -208,13 +268,16 @@ theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 script = ExtResource("3_tefeu")
 
+[connection signal="new_file_created" from="CanvasLayer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/File/GamePropsPopup" to="CanvasLayer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/File" method="new_sgf"]
+[connection signal="new_tree_created" from="CanvasLayer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/File/GamePropsPopup" to="CanvasLayer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/File" method="new_root"]
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/File/GamePropsPopup/MarginContainer/GridContainer/Button" to="CanvasLayer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/File/GamePropsPopup" method="_on_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/PrevButton" to="CanvasLayer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/File" method="prev_root"]
 [connection signal="pressed" from="CanvasLayer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/NextButton" to="CanvasLayer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/File" method="next_root"]
 [connection signal="tree_edited" from="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer/Control/GameBoard" to="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" method="_on_tree_edited"]
-[connection signal="pressed" from="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HFlowContainer/Button" to="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer/Control/GameBoard" method="make_move" binds= [Vector2i(0, 0)]]
-[connection signal="pressed" from="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HFlowContainer/Button5" to="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" method="remove_current_node"]
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer/HFlowContainer/Button" to="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer/Control/GameBoard" method="make_move" binds= [Vector2i(0, 0)]]
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer/HFlowContainer/Button5" to="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" method="remove_current_node"]
 [connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer/Control/GameBoard" method="_on_state_changed"]
-[connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/GameState" method="_on_state_changed"]
-[connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/WhitePlayerInfo" method="_on_state_changed"]
-[connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/BlackPlayerInfo" method="_on_state_changed"]
-[connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/VBoxContainer/Comment" method="_on_state_changed"]
+[connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer/GameState" method="_on_state_changed"]
+[connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer/HBoxContainer/WhitePlayerInfo" method="_on_state_changed"]
+[connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer/HBoxContainer/BlackPlayerInfo" method="_on_state_changed"]
+[connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer/Comment" method="_on_state_changed"]

@@ -117,7 +117,7 @@ class SgfFile:
 	var loc: int = 0
 	
 	var stack: Array[SgfNode] = [null]
-	var roots = []
+	var roots: Array[SgfNode] = []
 	
 	func _init(text_: String) -> void:
 		text = text_
@@ -204,3 +204,9 @@ class SgfFile:
 					if not parse_prop(n):
 						break
 		pass
+	
+	func serialize() -> String:
+		var s := ""
+		for i in roots:
+			s += i.serialize()
+		return s
