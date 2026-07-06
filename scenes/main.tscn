@@ -49,7 +49,7 @@ text = "File"
 item_count = 4
 popup/item_0/text = "Open"
 popup/item_0/id = 0
-popup/item_1/text = "Close"
+popup/item_1/text = "Save"
 popup/item_1/id = 1
 popup/item_2/text = "New tree"
 popup/item_2/id = 2
@@ -59,11 +59,17 @@ script = ExtResource("1_o6xl0")
 tree = NodePath("../../../../ScrollContainer/SgfTreeVis")
 root_index_label = NodePath("../Label")
 
-[node name="FileDialog" type="FileDialog" parent="CanvasLayer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/File" unique_id=769216748]
+[node name="OpenFileDialog" type="FileDialog" parent="CanvasLayer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/File" unique_id=769216748]
 oversampling_override = 1.0
 title = "Open a File"
 position = Vector2i(0, 36)
 file_mode = 0
+access = 2
+use_native_dialog = true
+
+[node name="SaveFileDialog" type="FileDialog" parent="CanvasLayer/VBoxContainer/PanelContainer/MarginContainer/HBoxContainer/File" unique_id=1609346974]
+oversampling_override = 1.0
+position = Vector2i(0, 36)
 access = 2
 use_native_dialog = true
 
@@ -160,6 +166,7 @@ layout_mode = 0
 offset_right = 48.0
 offset_bottom = 48.0
 mouse_filter = 0
+mouse_default_cursor_shape = 12
 texture = ExtResource("2_tefeu")
 expand_mode = 1
 stretch_mode = 3

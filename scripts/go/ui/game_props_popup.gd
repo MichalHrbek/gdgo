@@ -30,3 +30,4 @@ func _on_button_pressed() -> void:
 		new_tree_created.emit(new_file.roots[0])
 	else:
 		new_file_created.emit(new_file)
+	hide()
