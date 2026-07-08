@@ -266,11 +266,25 @@ script = ExtResource("3_jyhfs")
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="SgfPropsEditor" type="VBoxContainer" parent="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer/VSplitContainer/ScrollContainer" unique_id=724082914]
+[node name="SgfPropsEditor" type="VBoxContainer" parent="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer/VSplitContainer/ScrollContainer" unique_id=724082914 node_paths=PackedStringArray("add_line")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("8_85g3d")
+add_line = NodePath("HBoxContainer/LineEdit")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer/VSplitContainer/ScrollContainer/SgfPropsEditor" unique_id=2050648985]
+custom_minimum_size = Vector2(0, 66)
+layout_mode = 2
+
+[node name="LineEdit" type="LineEdit" parent="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer/VSplitContainer/ScrollContainer/SgfPropsEditor/HBoxContainer" unique_id=1047160728]
+custom_minimum_size = Vector2(56, 0)
+layout_mode = 2
+focus_mode = 1
+theme_override_constants/minimum_character_width = 2
+placeholder_text = "Prop"
+alignment = 1
+emoji_menu_enabled = false
 
 [node name="HSeparator" type="HSeparator" parent="CanvasLayer/VBoxContainer" unique_id=209413034]
 layout_mode = 2
@@ -299,6 +313,7 @@ script = ExtResource("3_tefeu")
 [connection signal="tree_edited" from="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer/Control/GameBoard" to="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" method="_on_tree_edited"]
 [connection signal="pressed" from="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer/HFlowContainer/Button" to="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer/Control/GameBoard" method="make_move" binds= [Vector2i(0, 0)]]
 [connection signal="pressed" from="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer/HFlowContainer/Button5" to="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" method="remove_current_node"]
+[connection signal="node_edited" from="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer/VSplitContainer/ScrollContainer/SgfPropsEditor" to="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" method="_on_tree_edited"]
 [connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer/Control/GameBoard" method="_on_state_changed"]
 [connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer/GameState" method="_on_state_changed"]
 [connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer/HBoxContainer/WhitePlayerInfo" method="_on_state_changed"]

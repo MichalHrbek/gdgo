@@ -89,6 +89,95 @@ static var PROP_TYPES: Dictionary[String, Callable] = {
 	"TW": SgfPointList.new.bind(true),      # White territory
 }
 
+const PROP_HINTS: Dictionary[String, String] = {
+	# Move props
+	"B": "Black move",
+	"KO": "Execute move even if illegal (e.g., Ko violation)",
+	"MN": "Set move number",
+	"W": "White move",
+	
+	# Setup props
+	"AB": "Add Black stones",
+	"AE": "Add Empty (clear points)",
+	"AW": "Add White stones",
+	"PL": "Player whose turn it is to play",
+	
+	# Node annotation props
+	"C": "Comment text",
+	"DM": "Position is even (even result for both)",
+	"GB": "Good for Black",
+	"GW": "Good for White",
+	"HO": "Hotspot (interesting/decisive position)",
+	"N": "Node name",
+	"UC": "Position is unclear",
+	"V": "Node value (estimated score; positive for B, negative for W)",
+	
+	# Move annotation props
+	"BM": "Bad move",
+	"DO": "Doubtful move",
+	"IT": "Interesting move",
+	"TE": "Tesuji (good move)",
+	
+	# Markup props
+	"AR": "Draw arrow",
+	"CR": "Circle markup",
+	"DD": "Dim/grey out points",
+	"LB": "Text label on board",
+	"LN": "Draw line",
+	"MA": "Mark with 'X'",
+	"SL": "Selected points",
+	"SQ": "Square markup",
+	"TR": "Triangle markup",
+	
+	# Root props
+	"AP": "Application name and version",
+	"CA": "Charset/encoding used for text",
+	"FF": "File format version",
+	"GM": "Game type (e.g., 1 = Go, 2 = Othello, 3 = Chess)",
+	"ST": "Style of variation display",
+	"SZ": "Board size",
+	
+	# Game info props
+	"AN": "Name of person who annotated the game",
+	"BR": "Black rank",
+	"BT": "Black team name",
+	"CP": "Copyright info",
+	"DT": "Date when game was played",
+	"EV": "Event/tournament name",
+	"GC": "Game commentary/background summary",
+	"GN": "Game name",
+	"ON": "Opening info (e.g., fuseki pattern)",
+	"OT": "Overtime (byo-yomi) method description",
+	"PB": "Player Black name",
+	"PC": "Place where game was played",
+	"PW": "Player White name",
+	"RE": "Result of the game",
+	"RO": "Round number and type",
+	"RU": "Ruleset name (e.g., Japanese, AGA)",
+	"SO": "Source of the game record (e.g., book, journal)",
+	"TM": "Time limit in seconds",
+	"US": "User/program name that entered the game record",
+	"WR": "White rank",
+	"WT": "White team name",
+	
+	# Timing props
+	"BL": "Black time left (seconds)",
+	"OB": "Overtime stones left to play for Black",
+	"OW": "Overtime stones left to play for White",
+	"WL": "White time left (seconds)",
+	
+	# Misc props
+	"FG": "Figure property (for printing diagrams)",
+	"PM": "Print move numbers style",
+	"VW": "View only part of the board",
+	
+	# Go specific
+	"HA": "Handicap",
+	"KM": "Komi",
+	"TB": "Black territory",
+	"TW": "White territory"
+}
+
 const TYPES_L1 = [SgfTypes.SgfList]
 const TYPES_L2 = [SgfTypes.SgfCompose]
 const TYPES_L3 = [SgfTypes.SgfColor, SgfTypes.SgfDouble, SgfTypes.SgfNone, SgfTypes.SgfNumber, SgfTypes.SgfPoint, SgfTypes.SgfReal, SgfTypes.SgfText]

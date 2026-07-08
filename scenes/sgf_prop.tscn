@@ -3,12 +3,9 @@
 [ext_resource type="Script" uid="uid://br6r8rdi4al5p" path="res://scripts/ui/sgf_prop.gd" id="1_oxr6d"]
 [ext_resource type="PackedScene" uid="uid://bopx2t1tqbnim" path="res://scenes/sgf_type.tscn" id="1_voova"]
 
-[node name="Control" type="HBoxContainer" unique_id=18523945 node_paths=PackedStringArray("l1", "list", "left", "right", "value", "key")]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Control" type="HBoxContainer" unique_id=18523945 node_paths=PackedStringArray("l1", "list", "left", "right", "value", "key", "key_container")]
+offset_right = 167.0
+offset_bottom = 66.0
 script = ExtResource("1_oxr6d")
 l1 = NodePath("HBoxContainer/L1")
 list = NodePath("HBoxContainer/List")
@@ -16,12 +13,14 @@ left = NodePath("HBoxContainer/Left")
 right = NodePath("HBoxContainer/Right")
 value = NodePath("HBoxContainer/TextEdit")
 key = NodePath("HBoxContainer/PanelContainer/MarginContainer/KeyLabel")
+key_container = NodePath("HBoxContainer/PanelContainer")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=399417756]
 layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="PanelContainer" type="PanelContainer" parent="HBoxContainer" unique_id=1511957212]
+custom_minimum_size = Vector2(56, 0)
 layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/PanelContainer" unique_id=842602039]
@@ -32,7 +31,6 @@ theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
 [node name="KeyLabel" type="Label" parent="HBoxContainer/PanelContainer/MarginContainer" unique_id=453242507]
-custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 text = "Key"
 horizontal_alignment = 1
@@ -70,14 +68,17 @@ emoji_menu_enabled = false
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=154708456]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="HBoxContainer/VBoxContainer" unique_id=1574943569]
+[node name="SaveButton" type="Button" parent="HBoxContainer/VBoxContainer" unique_id=1574943569]
 layout_mode = 2
 size_flags_vertical = 3
 focus_mode = 1
 text = "Save"
 
-[node name="Button2" type="Button" parent="HBoxContainer/VBoxContainer" unique_id=302048278]
+[node name="DeleteButton" type="Button" parent="HBoxContainer/VBoxContainer" unique_id=302048278]
 layout_mode = 2
 size_flags_vertical = 3
 focus_mode = 1
 text = "Delete"
+
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/DeleteButton" to="." method="_on_delete_button_pressed"]
