@@ -1,13 +1,14 @@
 [gd_scene format=3 uid="uid://bcxwy2weokxef"]
 
-[ext_resource type="Script" uid="uid://cwrc6h0puvesm" path="res://scripts/go/ui/file_menu.gd" id="1_o6xl0"]
-[ext_resource type="Script" uid="uid://hfk0hqouwuei" path="res://scripts/go/ui/game_state_ui.gd" id="2_jyhfs"]
-[ext_resource type="Script" uid="uid://d4bwd2p4ppo3l" path="res://scripts/go/ui/board.gd" id="2_tbgi4"]
+[ext_resource type="Script" uid="uid://cwrc6h0puvesm" path="res://scripts/ui/file_menu.gd" id="1_o6xl0"]
+[ext_resource type="Script" uid="uid://hfk0hqouwuei" path="res://scripts/ui/game_state_ui.gd" id="2_jyhfs"]
+[ext_resource type="Script" uid="uid://d4bwd2p4ppo3l" path="res://scripts/ui/board.gd" id="2_tbgi4"]
 [ext_resource type="Texture2D" uid="uid://cwej1vhu75qwf" path="res://assets/ui/scale.svg" id="2_tefeu"]
-[ext_resource type="Script" uid="uid://c5ae88nlor0pd" path="res://scripts/go/ui/game_props_popup.gd" id="2_tipki"]
-[ext_resource type="Script" uid="uid://dm8721x0payo4" path="res://scripts/go/ui/comment_box.gd" id="3_jyhfs"]
+[ext_resource type="Script" uid="uid://c5ae88nlor0pd" path="res://scripts/ui/game_props_popup.gd" id="2_tipki"]
+[ext_resource type="Script" uid="uid://dm8721x0payo4" path="res://scripts/ui/comment_box.gd" id="3_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://do4lb5meosjl" path="res://scenes/player_info.tscn" id="3_tbgi4"]
-[ext_resource type="Script" uid="uid://cftxeap8dnx5r" path="res://scripts/go/ui/sgf_tree_vis.gd" id="3_tefeu"]
+[ext_resource type="Script" uid="uid://cftxeap8dnx5r" path="res://scripts/ui/sgf_tree_vis.gd" id="3_tefeu"]
+[ext_resource type="Script" uid="uid://dgr5spgpi0ydc" path="res://scripts/ui/sgf_props_editor.gd" id="8_85g3d"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tefeu"]
 content_margin_left = 0.0
@@ -250,11 +251,26 @@ text = "Remove node"
 [node name="HSeparator2" type="HSeparator" parent="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer" unique_id=1380624165]
 layout_mode = 2
 
-[node name="Comment" type="RichTextLabel" parent="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer" unique_id=1536925057]
+[node name="VSplitContainer" type="VSplitContainer" parent="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer" unique_id=364775984]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/autohide = 0
+
+[node name="Comment" type="RichTextLabel" parent="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer/VSplitContainer" unique_id=1536925057]
 layout_mode = 2
 size_flags_vertical = 3
 vertical_alignment = 1
 script = ExtResource("3_jyhfs")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer/VSplitContainer" unique_id=743548268]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SgfPropsEditor" type="VBoxContainer" parent="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer/VSplitContainer/ScrollContainer" unique_id=724082914]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("8_85g3d")
 
 [node name="HSeparator" type="HSeparator" parent="CanvasLayer/VBoxContainer" unique_id=209413034]
 layout_mode = 2
@@ -287,4 +303,5 @@ script = ExtResource("3_tefeu")
 [connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer/GameState" method="_on_state_changed"]
 [connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer/HBoxContainer/WhitePlayerInfo" method="_on_state_changed"]
 [connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer/HBoxContainer/BlackPlayerInfo" method="_on_state_changed"]
-[connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer/Comment" method="_on_state_changed"]
+[connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer/VSplitContainer/Comment" method="_on_state_changed"]
+[connection signal="state_changed" from="CanvasLayer/VBoxContainer/ScrollContainer/SgfTreeVis" to="CanvasLayer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer/VSplitContainer/ScrollContainer/SgfPropsEditor" method="_on_state_changed"]

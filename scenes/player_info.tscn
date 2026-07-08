@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://do4lb5meosjl"]
 
 [ext_resource type="Texture2D" uid="uid://bjahbwc55i31x" path="res://assets/stones/stone.svg" id="1_oojiu"]
-[ext_resource type="Script" uid="uid://br254id0cwan1" path="res://scripts/go/ui/player_info_ui.gd" id="1_yl0j5"]
+[ext_resource type="Script" uid="uid://br254id0cwan1" path="res://scripts/ui/player_info_ui.gd" id="1_yl0j5"]
 
 [node name="PlayerInfo" type="HFlowContainer" unique_id=946200347 node_paths=PackedStringArray("color_rect", "name_label", "rank_label", "team_label", "time_label", "by_label", "prisoners_label")]
 anchors_preset = 15

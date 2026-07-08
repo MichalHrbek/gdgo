@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://bopx2t1tqbnim"]
+
+[ext_resource type="Script" uid="uid://dep1uksob0eao" path="res://scripts/ui/sgf_type_button.gd" id="1_4esnd"]
+
+[node name="SgfTypeButton" type="OptionButton" unique_id=405994935]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 1
+script = ExtResource("1_4esnd")

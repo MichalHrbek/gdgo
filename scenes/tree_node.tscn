@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://clih20vicpywb"]
 
 [ext_resource type="Texture2D" uid="uid://bjahbwc55i31x" path="res://assets/stones/stone.svg" id="1_cs86i"]
-[ext_resource type="Script" uid="uid://v7waphovtbla" path="res://scripts/go/ui/tree_node.gd" id="1_m7hul"]
+[ext_resource type="Script" uid="uid://v7waphovtbla" path="res://scripts/ui/tree_node.gd" id="1_m7hul"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_m7hul"]
 font_color = Color(0, 0, 0, 1)

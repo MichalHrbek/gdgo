@@ -89,13 +89,39 @@ static var PROP_TYPES: Dictionary[String, Callable] = {
 	"TW": SgfPointList.new.bind(true),      # White territory
 }
 
-class SgfTypeBase:
+const TYPES_L1 = [SgfTypes.SgfList]
+const TYPES_L2 = [SgfTypes.SgfCompose]
+const TYPES_L3 = [SgfTypes.SgfColor, SgfTypes.SgfDouble, SgfTypes.SgfNone, SgfTypes.SgfNumber, SgfTypes.SgfPoint, SgfTypes.SgfReal, SgfTypes.SgfText]
+const TYPES_ALL = TYPES_L1 + TYPES_L2 + TYPES_L3
+
+class SgfTypeBase extends RefCounted:
 	func _init(_texts: Array[String]) -> void:
 		pass
+	
+	func typename() -> String:
+		return "unknown"
+	
+	static func generic_typename() -> String:
+		return "unknown"
+	
+	static func get_type():
+		return SgfTypeBase
+	
+	func _to_string() -> String:
+		return "[]"
 
 class SgfNone extends SgfTypeBase:
 	func _to_string() -> String:
 		return "[]"
+	
+	func typename() -> String:
+		return "none"
+	
+	static func generic_typename() -> String:
+		return "none"
+	
+	static func get_type():
+		return SgfNone
 
 class SgfDouble extends SgfTypeBase:
 	var value := 0
@@ -110,6 +136,15 @@ class SgfDouble extends SgfTypeBase:
 	
 	func _to_string() -> String:
 		return "[%d]" % value
+	
+	func typename() -> String:
+		return "double"
+	
+	static func generic_typename() -> String:
+		return "double"
+	
+	static func get_type():
+		return SgfDouble
 
 class SgfColor extends SgfTypeBase:
 	var value := Stone.StoneColor.NONE
@@ -124,6 +159,15 @@ class SgfColor extends SgfTypeBase:
 	
 	func _to_string() -> String:
 		return "[W]" if value == Stone.StoneColor.WHITE else "[B]"
+	
+	func typename() -> String:
+		return "color"
+	
+	static func generic_typename() -> String:
+		return "color"
+	
+	static func get_type():
+		return SgfColor
 
 class SgfPoint extends SgfTypeBase:
 	# 1-indexed
@@ -154,11 +198,22 @@ class SgfPoint extends SgfTypeBase:
 
 	func to_ivec() -> Vector2i:
 		return Vector2i(x,y)
+	
+	func typename() -> String:
+		return "point"
+	
+	static func generic_typename() -> String:
+		return "point"
+	
+	static func get_type():
+		return SgfPoint
 
 class SgfPointList extends SgfTypeBase:
 	var points: Array[Vector2i] = []
+	var elist: bool
 	
-	func _init(texts: Array[String], elist: bool = false) -> void:
+	func _init(texts: Array[String], elist_: bool = false) -> void:
+		elist = elist_
 		if elist:
 			if len(texts) == 1:
 				if len(texts[0]) == 0:
@@ -186,6 +241,16 @@ class SgfPointList extends SgfTypeBase:
 		for i in points:
 			s += "[" + SgfPoint.int_to_chr(i.x) + SgfPoint.int_to_chr(i.y) + "]"
 		return s
+	
+	func typename() -> String:
+		if elist: return "elist of point"
+		return "list of point"
+	
+	static func generic_typename() -> String:
+		return "(e)list of point"
+	
+	static func get_type():
+		return SgfPointList
 
 class SgfNumber extends SgfTypeBase:
 	var value := 0
@@ -195,6 +260,15 @@ class SgfNumber extends SgfTypeBase:
 	
 	func _to_string() -> String:
 		return "[%d]" % value
+	
+	func typename() -> String:
+		return "number"
+	
+	static func generic_typename() -> String:
+		return "number"
+	
+	static func get_type():
+		return SgfNumber
 
 class SgfReal extends SgfTypeBase:
 	var value := 0.0
@@ -204,6 +278,15 @@ class SgfReal extends SgfTypeBase:
 	
 	func _to_string() -> String:
 		return "[%f]" % value
+	
+	func typename() -> String:
+		return "real"
+	
+	static func generic_typename() -> String:
+		return "real"
+	
+	static func get_type():
+		return SgfReal
 
 class SgfText extends SgfTypeBase:
 	var value := ""
@@ -213,11 +296,22 @@ class SgfText extends SgfTypeBase:
 	
 	func _to_string() -> String:
 		return "[%s]" % value
+	
+	func typename() -> String:
+		return "text"
+	
+	static func generic_typename() -> String:
+		return "text"
+	
+	static func get_type():
+		return SgfText
 
 class SgfList extends SgfTypeBase:
 	var values: Array[Variant] = []
+	var elist: bool
 	
-	func _init(texts: Array[String], sgf_type: Callable, elist: bool = false) -> void:
+	func _init(texts: Array[String], sgf_type: Callable, elist_: bool = false) -> void:
+		elist = elist_
 		if elist:
 			if len(texts) == 1:
 				if len(texts[0]) == 0:
@@ -234,6 +328,17 @@ class SgfList extends SgfTypeBase:
 		for i in values:
 			s += str(i)
 		return s
+	
+	func typename() -> String:
+		var s := "elist of " if elist else "list of "
+		s += values[0].typename() if values else "unknown"
+		return s
+	
+	static func generic_typename() -> String:
+		return "(e)list of"
+	
+	static func get_type():
+		return SgfList
 
 static func _str_arr_cast(arr: Array) -> Array[String]:
 	var typed: Array[String] = []
@@ -268,7 +373,7 @@ class SgfCompose extends SgfTypeBase:
 	
 	static var _compose_regex = RegEx.new()
 	static func _regex_split(subject: String, regex: RegEx) -> Array[String]:
-		var results: Array[String] = []	
+		var results: Array[String] = []
 		var last_index = 0
 		
 		for item in regex.search_all(subject):
@@ -278,3 +383,12 @@ class SgfCompose extends SgfTypeBase:
 		results.append(subject.substr(last_index))
 		
 		return results
+	
+	func typename() -> String:
+		return "composed %s : %s" % [left_value.typename(), right_value.typename() if right_value else "unknown"]
+	
+	static func generic_typename() -> String:
+		return "composed of"
+	
+	static func get_type():
+		return SgfCompose
